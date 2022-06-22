@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class RolController extends Controller
 {
@@ -31,6 +32,7 @@ class RolController extends Controller
         }
 
         $roles = Role::where('name','like','%'.$busqueda.'%')
+            ->where('name','!=','ADMINISTRADOR')
             ->paginate(5,['id','name']);
 
         return response()->json([
@@ -72,11 +74,25 @@ class RolController extends Controller
 
     public function edit($id)
     {
-        //
         // DATOS DEL ROL PARA COMPARAR
-        $rol = Role::find($id)->first()->makeHidden(["guard_name","created_at","updated_at"]);
+        $rol = Role::where([['id',$id],['name','!=','ADMINISTRADOR']])->first();
+        if($rol == null){
+            return response()->json([
+                "mensaje" => "Error al obtener rol"
+            ], 400);
+        }
+        $rol->makeHidden(["guard_name","created_at","updated_at"]);
         $permisosRol = $rol->permissions()->get()->makeHidden(["guard_name","created_at","updated_at","pivot"]);
-        //
+
+        $autorizar_val = DB::table('roles as r')
+                    ->join('autorizar as a','a.id','r.id')
+                    ->where('r.id',$id)
+                    ->first();
+        $autorizar = 0;
+        if($autorizar_val != null){
+            $autorizar = 1;
+        }
+
         // Permisos precargados para LLENAR con los datos comparados
         $permisos = DB::table('permissions as p')
         ->leftjoin('acceso as a','a.id','=','p.id')
@@ -89,6 +105,7 @@ class RolController extends Controller
         return response()->json([
             "rol" => $rol,
             "permisos_rol" => $permisosRol,
+            "autorizar" => $autorizar,
             "permisos" => $permisos
         ], 200);
     }
@@ -104,11 +121,17 @@ class RolController extends Controller
 
         try{
             DB::beginTransaction();
-            $rol = Role::find($id)->first();
 
             Role::where('id', $id)->update(['name' => $request->input('name')]);
     
             DB::table('role_has_permissions')->where('role_id',$id)->delete();
+
+            $rol = Role::where([['id',$id],['name','!=','ADMINISTRADOR']])->first();
+            if($rol == null){
+                return response()->json([
+                    "mensaje" => "Error al obtener rol"
+                ], 400);
+            }
             
             $rol->syncPermissions($request->input('permiso'));
     
@@ -125,7 +148,7 @@ class RolController extends Controller
             ]);
         }
         return response()->json([
-            "msg" => "Rol actualizado"
+            "msg" => "Rol actualizado",
         ], 200);
     }
 
@@ -134,6 +157,12 @@ class RolController extends Controller
         // VALIDAR QUE NO SE BORRE ADMINISTRADOR
         //DELETE ROL
         DB::table('role_has_permissions')->where('role_id',$id)->delete();
+        DB::table('model_has_roles')->where('role_id',$id)->delete();
         DB::table('autorizar')->where('id', $id)->delete();
+        DB::table('roles')->where('id', $id)->delete();
+        
+        return response()->json([
+            "msg" => "Rol eliminado correctamente"
+        ], 200);
     }
 }

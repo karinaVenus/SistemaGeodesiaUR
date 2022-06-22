@@ -24,11 +24,11 @@ class FormReg_ing_cabUpdate extends FormRequest
             'nro_doc'=>'required|max:11',
             'fec_doc'=>'required',
             //'cod_estado_reg'=>'required',
-            'tot_pagar'=>'required',
+            //'tot_pagar'=>'required',
             'cod_art'=>'required',
             'prec_unit'=>'required',
             'cant_art'=>'required',
-            'prec_compr'=>'required',
+            //'prec_compr'=>'required',
             'obs_ing'=>'max:350'
         ];
     }
@@ -40,3 +40,4 @@ class FormReg_ing_cabUpdate extends FormRequest
         ], 422));
     }
 }
+

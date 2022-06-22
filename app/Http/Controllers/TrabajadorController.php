@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FormTrabajador;
+use App\Http\Requests\FormTrabajadorUpdate;
 use App\Http\Requests\FormAsignarRolAcceso;
 use App\Models\User;
 use App\Models\Trabajador;
@@ -279,7 +280,7 @@ class TrabajadorController extends Controller
         ], 200,);
     }
 
-    public function update(Request $request, $id)
+    public function update(FormTrabajadorUpdate $request, $id)
     {
         try{
             DB::beginTransaction();

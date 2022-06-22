@@ -21,26 +21,27 @@ class UsuarioController extends Controller
     {
         $user = User::where("usuario","=",$request->usuario)->first();
 
-        if( isset($user->id) ){
+        if( isset($user->id) && $user->cod_estado_usu == 1 ){
             if( Hash::check($request->contraseña,$user->contraseña) ){
                 //creamos toke
                 $token = $user->createToken("auth_token")->plainTextToken;
-                //si todo esta OK
 
-                ///////borrar
                     $rol = $user->roles->pluck('name');
                     $role = Role::where('name',$rol)->first();
                     $permisos = $role->permissions()->get();
-                    // $permisos = $user->getRoleNames();
-                    //  foreach($permisos as $p){
-                    //     $xxx = $p->get('name')->toArray();
-                    //     //$p->makeHidden(['id'.'guard_name','created_at','updated_at','pivot']);
-                    //  }
-                //////////
+
+                    $persona = DB::table('persona')
+                                ->where('cod_persona',$user->cod_trabajador)
+                                ->select('nom_per','ape_pat_per','ape_mat_per')
+                                ->first();
+                    if($persona == null){
+                        $persona = "Usuario Maestro"; 
+                    }
                 return response()->json([
                     "status" => 0,
                     "msg" => "Usuario logeado",
                     "access_token" =>  $token,
+                    "nombre" => $persona,
                     "role" => $role->name,
                     "permisos" => $permisos->makeHidden(['id','pivot','updated_at','created_at','guard_name']),
                     "id_usuario" => $user->cod_trabajador
@@ -62,21 +63,17 @@ class UsuarioController extends Controller
     public function logout ()
     {
         auth()->user()->tokens()->delete();
-        // $user = auth()->user();
-        // $permisos = $user->getPermissionsViaRoles();
-        // $acceso = $user->getDirectPermissions();
 
         return response()->json([
             "status" => 0,
             "msg" => "sesion cerrada",
-            // "usuario" => $user,
-            // "permisos" => $permisos,
-            // "acceso" =>$acceso
         ]);
     }
 
     public function profile($id)
     {
+        $trabajador = auth()->user()->cod_trabajador;
+        $id_user = auth()->user()->id;
         $perfil = DB::table('persona as p')
                 ->join('trabajador as t','t.cod_trabajador','=','p.cod_persona')
                 ->join('users as u','u.cod_trabajador','=','t.cod_trabajador')
@@ -88,10 +85,18 @@ class UsuarioController extends Controller
                 ->select('u.id as usuario','tp.des_t_per','p.nom_per','p.ape_pat_per','p.ape_mat_per','tdi.dest_doc',
                         'p.nro_doc','p.correo_per','dpt.des_dpt','provi.des_provi','dist.des_distrito','p.dir_per')
                 ->where('p.cod_persona','=',$id)
+                ->where('t.cod_trabajador',$trabajador)
                 ->first();
 
+        if($perfil == null){
+            return response()->json([
+                "msg" => "Error al obtener perfil"
+            ]);
+        }
+
         return response()->json([
-            "perfil" => $perfil
+            "perfil" => $perfil,
+            "id_usuario" => $id_user
         ]);
 
     }

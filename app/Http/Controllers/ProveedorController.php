@@ -32,7 +32,7 @@ class ProveedorController extends Controller
 
         $proveedor = DB::table('proveedor as p')
             ->join('persona as pep','p.cod_prov','=','pep.cod_persona')
-            ->select('p.cod_prov','pep.razon_social as proveedor','pep.nro_doc')
+            ->select('p.cod_prov','pep.razon_social as proveedor','pep.nro_doc as ruc')
             ->where([['pep.razon_social','LIKE', '%'.$busqueda.'%'],['estado_prov','=',1]])
             ->orwhere('pep.nro_doc','LIKE', '%'.$busqueda.'%')
             ->orderBy('p.cod_prov','desc')
@@ -113,7 +113,7 @@ class ProveedorController extends Controller
 
             $tbl_proveedor = new Proveedor();
             $tbl_proveedor->cod_prov =  $proveedor->cod_persona;//tabla proveedor
-            $tbl_proveedor->estado_prov = $request->get('estado_prov');//tabla proveedor
+            //$tbl_proveedor->estado_prov = $request->get('estado_prov');//tabla proveedor
             $tbl_proveedor->save();
 
             $nro_telf = $request->get('nro_telf');
@@ -251,9 +251,7 @@ class ProveedorController extends Controller
             DB::rollBack();
         }
         return response()->json([
-            'msg' => $msg,
-            'proveedor'=>$proveedor,
-            'telefonos'=>$telefono
+            'msg' => $msg
         ]);
     }
 

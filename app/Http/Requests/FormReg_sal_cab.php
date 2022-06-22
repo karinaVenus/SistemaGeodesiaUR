@@ -23,7 +23,7 @@ class FormReg_sal_cab extends FormRequest
             'cod_t_doc'=>'required',
             'nro_doc'=>'required|unique:reg_sal_cab|max:11',
             'fec_doc'=>'required',
-            'cod_estado_reg'=>'required',
+            //'cod_estado_reg'=>'required',
             //'tot_pagar'=>'required',
 
             'cod_art'=>'required',

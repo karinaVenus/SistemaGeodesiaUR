@@ -25,12 +25,12 @@ class FormReg_ing_cab extends FormRequest
             'cod_t_doc'=>'required',
             'nro_doc'=>'required|unique:reg_ing_cab,nro_doc|max:11',
             'fec_doc'=>'required',
-            'cod_estado_reg'=>'required',
-            'tot_pagar'=>'required',
+            //'cod_estado_reg'=>'required',
+            //'tot_pagar'=>'required',
             'cod_art'=>'required',
             'prec_unit'=>'required',
             'cant_art'=>'required',
-            'prec_compr'=>'required',
+            //'prec_compr'=>'required',
             'obs_ing'=>'max:350'
         ];
     }

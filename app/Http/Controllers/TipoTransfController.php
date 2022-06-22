@@ -76,7 +76,7 @@ class TipoTransfController extends Controller
     {
         $tipo_transf = Tipo_Transf::find($id);
         return response()->json([
-            "tipo_transf" => $tipo_transf
+            "tipo_transf" => $tipo_transf->makeHidden('estado_transf')
         ], 200,);
     }
 

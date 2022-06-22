@@ -77,7 +77,7 @@ class TipoDocRegController extends Controller
     {
         $tipo_doc_reg = Tipo_doc_reg::find($id);
         return response()->json([
-            "tipo_doc_reg" => $tipo_doc_reg
+            "tipo_doc_reg" => $tipo_doc_reg->makeHidden('estado_t_doc')
         ], 200,);
     }
 

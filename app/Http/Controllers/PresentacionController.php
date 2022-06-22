@@ -112,16 +112,23 @@ class PresentacionController extends Controller
 
     public function destroy($id)
     {
-        $presentacion = Presentacion::find($id);
-        $presentacion->estado_pres = "Inactivo"; // 1:Activo  2:Inactivo
-        $presentacion->update();
 
-        if($presentacion->update()){
-            $msg="Registro presentacion deshabilitado";
+        try{
+            DB::beginTransaction();
+            $presentacion = Presentacion::find($id);
+            $presentacion->estado_pres = "Inactivo"; // 1:Activo  2:Inactivo
+            $presentacion->update();
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'msg' => "Error al deshabilitar registro",
+                'error' => $e
+            ], 200, ); 
         }
-
         return response()->json([
-            'msg' => $msg
-        ], 200, );
+            'msg' => "Registro presentacion deshabilitado",
+        ], 200, );  
+
     }
 }

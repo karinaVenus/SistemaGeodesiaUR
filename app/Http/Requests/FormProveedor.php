@@ -22,7 +22,7 @@ class FormProveedor extends FormRequest
             'correo_per'=>'required|email|max:45',
             'cod_dist'=>'required',
             'dir_per'=>'required|max:450',
-            'estado_prov'=>'required',
+            //'estado_prov'=>'required',
             'nro_telf'=>'required|max:9|min:7'
         ];
     }
