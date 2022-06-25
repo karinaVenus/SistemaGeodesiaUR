@@ -139,7 +139,7 @@ class RegSalCabController extends Controller
         $articulos = DB::table('articulo as art')
         ->join('unid_med as um','art.cod_unid_med','=','um.cod_unid_med')
         ->join('inventario as inv','art.cod_art','=','inv.cod_art')
-        ->select(DB::raw("art.cod_art,CONCAT(art.des_art,' | ',um.prefijo_unid_med) as articulo"))// falta precio
+        ->select('art.cod_art',DB::raw("CONCAT(art.des_art,' | ',um.prefijo_unid_med) as articulo"),'inv.stock_almacen')// falta precio
         //where stock mayor a 0
         ->where('inv.stock_almacen','>','0')
         ->where('cod_almacen','=',$id)
@@ -154,9 +154,6 @@ class RegSalCabController extends Controller
 
     public function store(FormReg_sal_cab $request)
     {
-///
-/// generar el total
-///
         $msg ="sin error";
         try{
             DB::beginTransaction();

@@ -191,12 +191,11 @@ class ProveedorController extends Controller
         ///////
         $proveedor = DB::table('proveedor as p')
         ->join('persona as pep','p.cod_prov','=','pep.cod_persona')
-        ->join('tipo_persona as tp','pep.cod_t_per','=','tp.cod_t_per')
-        ->join('tdoc_ide as tdi','pep.cod_t_doc','=','tdi.cod_t_doc')  
         ->join('distrito as dist','pep.cod_dist','=','dist.cod_dist')
         ->join('provincia as provi','dist.cod_provi','=','provi.cod_provi')
         ->join('departamento as dpt','provi.cod_dep','=','dpt.cod_dpt')
-        ->select('p.cod_prov','tp.des_t_per','pep.razon_social as proveedor','tdi.dest_doc','pep.nro_doc','pep.correo_per','dpt.des_dpt','provi.des_provi','dist.des_distrito','pep.dir_per')
+        ->select('p.cod_prov','pep.cod_t_per','pep.razon_social','pep.cod_t_doc','pep.nro_doc',
+                'pep.correo_per','dpt.cod_dpt','provi.cod_provi','pep.cod_dist','pep.dir_per')
         ->where('p.cod_prov','=',$id)
         ->first();
 
@@ -257,6 +256,16 @@ class ProveedorController extends Controller
 
     public function destroy($id)
     {
-        //
+        $tbl_proveedor = Proveedor::find($id);
+        $tbl_proveedor->estado_prov = 0; // 1:Activo  0:Inactivo BIT
+        $tbl_proveedor->update();
+
+        if($tbl_proveedor->update()){
+            $msg="Registro proveedor deshabilitado";
+        }
+
+        return response()->json([
+            'msg' => $msg
+        ], 200, );
     }
 }

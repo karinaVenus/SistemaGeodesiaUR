@@ -37,9 +37,41 @@ class InventarioController extends Controller
     }
 
     public function inventario($id){
+
         $inventario = DB::select('call inventario_actual(?)',array($id));
+
+
+        // -------- ENVIAR -------------
+        // ALMACEN
+        $almacen_nom = DB::table('almacen')
+                        ->where('cod_almacen',$id)
+                        ->select('des_almacen')
+                        ->first();
+        // NOMBRE USUARIO
+        $user = auth()->user()->cod_proveedor;
+        $nom_trab = "";
+        $trabajador = DB::table('persona')
+                        ->where('cod_persona',$user)
+                        ->select(DB::raw("CONCAT(nom_per,' ',ape_pat_per,' ',ape_mat_per) as nombre"))
+                        ->first();
+        if($trabajador == null){
+            $nom_trab = "Administrador Master";
+        }else{
+            $nom_trab = $trabajador->name;
+        }
+        // NOMBRE EMPRESA
+        $empresa = DB::table('empresa as emp')
+        ->join('persona as p','p.cod_persona','emp.cod_emp')
+        ->select('p.razon_social')
+        ->first();
+
         return response()->json([
-            'inventario' => $inventario
+            'nom_trabajador' => $nom_trab ,
+            'fec_generado' => date('d-m-y h:i:s'),
+            'almacen' => $almacen_nom->des_almacen,
+            'empresa' => $empresa->razon_social,
+
+            'inventario' => $inventario,
         ], 200);
     }
 

@@ -230,10 +230,9 @@ class RegIngCabController extends Controller
         ->first();
 
         $reg_ing_det = DB::table('reg_ing_det')
-        ->select('cod_art','prec_unit','cant_art','prec_compr','obs_ing')
+        ->select('cod_art','prec_unit','cant_art','obs_ing')
         ->where('cod_reg_ing','=',$id)
         ->get();
-
 
         $proveedor = DB::table('proveedor as p')
         ->join('persona as pep','p.cod_prov','=','pep.cod_persona')

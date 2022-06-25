@@ -121,6 +121,10 @@ Route::group(['middleware'=>["auth:sanctum"]],function(){
     Route::get('/rolEditar/{id}','App\Http\Controllers\RolController@edit');
     Route::put('/rolUpdate/{id}','App\Http\Controllers\RolController@update');
     Route::delete('/rolDelete/{id}','App\Http\Controllers\RolController@destroy');
+//empresa
+    Route::get('/empresa','App\Http\Controllers\EmpresaController@show');
+    Route::get('/empresaEditar/{id}','App\Http\Controllers\EmpresaController@edit');
+    Route::put('/empresaUpdate/{id}','App\Http\Controllers\EmpresaController@update');
 });
 
 

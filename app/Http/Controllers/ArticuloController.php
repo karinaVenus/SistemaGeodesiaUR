@@ -38,7 +38,7 @@ class ArticuloController extends Controller
             ->select('art.cod_art','art.des_art','cat.des_cat','pr.des_pres','um.des_unid_med')
             ->where([['art.des_art','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',1]])
             ->orderBy('art.des_art', 'desc')
-            ->paginate(15);
+            ->paginate(5);
 
         return response()->json([
             "articulos" => $articulo

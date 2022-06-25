@@ -23,7 +23,7 @@ class FormProveedor extends FormRequest
             'cod_dist'=>'required',
             'dir_per'=>'required|max:450',
             //'estado_prov'=>'required',
-            'nro_telf'=>'required|max:9|min:7'
+            'nro_telf'=>'required|max:9'
         ];
     }
 }

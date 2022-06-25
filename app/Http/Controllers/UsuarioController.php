@@ -77,12 +77,11 @@ class UsuarioController extends Controller
         $perfil = DB::table('persona as p')
                 ->join('trabajador as t','t.cod_trabajador','=','p.cod_persona')
                 ->join('users as u','u.cod_trabajador','=','t.cod_trabajador')
-                ->join('tipo_persona as tp','p.cod_t_per','=','tp.cod_t_per')
                 ->join('tdoc_ide as tdi','p.cod_t_doc','=','tdi.cod_t_doc')
                 ->join('distrito as dist','p.cod_dist','=','dist.cod_dist')
                 ->join('provincia as provi','dist.cod_provi','=','provi.cod_provi')
                 ->join('departamento as dpt','provi.cod_dep','=','dpt.cod_dpt')
-                ->select('u.id as usuario','tp.des_t_per','p.nom_per','p.ape_pat_per','p.ape_mat_per','tdi.dest_doc',
+                ->select('u.id as usuario','p.nom_per','p.ape_pat_per','p.ape_mat_per','tdi.dest_doc',
                         'p.nro_doc','p.correo_per','dpt.des_dpt','provi.des_provi','dist.des_distrito','p.dir_per')
                 ->where('p.cod_persona','=',$id)
                 ->where('t.cod_trabajador',$trabajador)

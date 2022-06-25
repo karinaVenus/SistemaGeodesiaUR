@@ -63,11 +63,53 @@ class KardexController extends Controller
             $cant_ini = DB::select('call total_cant_lapso(?,?,?)',array($articulo,$fec_ini,$almacen)); 
             $kardex =  DB::select('call kardex_articulo(?,?,?,?)',array($articulo,$fec_ini,$fec_fin,$almacen));
             // $kardex =  DB::select('call kardex_articulo("art01","2022-05-01","2022-05-31")');
-            $msg="kardex obtenido";
-        }else $msg="nada que mostrar";
+        }else{
+            return response()->json([
+                'msg' => "Nada que mostrar"
+            ], 200);
+        }
+
+        // -------- ENVIAR -------------
+        // ALMACEN
+        $almacen_nom = DB::table('almacen')
+                        ->where('cod_almacen',$almacen)
+                        ->select('des_almacen')
+                        ->first();
+        // NOMBRE USUARIO
+        $user = auth()->user()->cod_proveedor;
+        $nom_trab = "";
+        $trabajador = DB::table('persona')
+                        ->where('cod_persona',$user)
+                        ->select(DB::raw("CONCAT(nom_per,' ',ape_pat_per,' ',ape_mat_per) as nombre"))
+                        ->first();
+        if($trabajador == null){
+            $nom_trab = "Administrador Master";
+        }else{
+            $nom_trab = $trabajador->name;
+        }
+
+        // NOMBRE EMPRESA
+        $empresa = DB::table('empresa as emp')
+                    ->join('persona as p','p.cod_persona','emp.cod_emp')
+                    ->select('p.razon_social')
+                    ->first();
+        // ARTICULO : codigo, descripcion, unidad medida
+        $articulo_des = DB::table('articulo')
+                        ->where('cod_art',$articulo)
+                        ->select(DB::raw("CONCAT(cod_art,' / ',des_art) as art_des"))
+                        ->first();
 
         return response()->json([
-            'msg' => $msg,
+            'msg' => "Kardex obtenido",
+            
+            'nom_trabajador' => $nom_trab ,
+            'fec_generado' => date('d-m-y h:i:s'),
+            'fec_inicio' => $fec_ini,
+            'fec_final' => $fec_fin,
+            'articulo' => $articulo_des->art_des,
+            'almacen' => $almacen_nom->des_almacen ,
+            'empresa' => $empresa->razon_social,
+
             'cant_ini' => $cant_ini,
             'val_net_ini' => $val_net_ini,
             'Kardex'=> $kardex,
