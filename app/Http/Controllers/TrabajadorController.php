@@ -244,7 +244,7 @@ class TrabajadorController extends Controller
         $trabajador = DB::table('persona as per')
                 ->join('trabajador as t','t.cod_trabajador','=','per.cod_persona')
                 ->join('distrito as d','d.cod_dist','=','per.cod_dist')
-                ->join('provincia as p','d.cod_provi','=','d.cod_provi')
+                ->join('provincia as p','p.cod_provi','=','d.cod_provi')
                 ->join('departamento as de','de.cod_dpt','=','p.cod_dep')
                 ->select('per.cod_persona','per.cod_t_per','per.nom_per','per.ape_pat_per','per.ape_mat_per','per.cod_t_doc','per.nro_doc','per.correo_per','de.cod_dpt','p.cod_provi','d.cod_dist')
                 ->where('cod_persona',$id)
