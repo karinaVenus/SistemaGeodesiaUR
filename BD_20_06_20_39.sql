@@ -46,7 +46,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `almacen`
 --
-
 DROP TABLE IF EXISTS `almacen`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -878,10 +877,14 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_agregar_stock` AFTER INSERT ON `reg_ing_det` FOR EACH ROW BEGIN
-  UPDATE articulo
-  SET articulo.stock_art = articulo.stock_art + new.cant_art
-  WHERE articulo.cod_art = new.cod_art;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_agregar_stock` AFTER INSERT ON `reg_ing_det` FOR EACH ROW BEGIN
+
+  UPDATE articulo
+
+  SET articulo.stock_art = articulo.stock_art + new.cant_art
+
+  WHERE articulo.cod_art = new.cod_art;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -897,25 +900,44 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_agregar_stock_almacen` AFTER INSERT ON `reg_ing_det` FOR EACH ROW BEGIN
-DECLARE codigoAlmacenVal integer;
-DECLARE codArticuloVal varchar(12);
-
-DECLARE codAlmRegIng integer;
-
-SELECT ric.cod_almacen into codAlmRegIng from reg_ing_cab as ric where ric.cod_reg_in = new.cod_reg_ing;
-
-select cod_art into codArticuloVal from inventario where cod_almacen = codAlmRegIng and cod_art = new.cod_art;
-
-select cod_almacen into codigoAlmacenVal from inventario where cod_almacen = codAlmRegIng and cod_art = new.cod_art;
-
-if codigoAlmacenVal <=> null AND codArticuloVal <=> null THEN
-  insert into inventario (cod_almacen,cod_art,stock_almacen) VALUES (codAlmRegIng,new.cod_art,new.cant_art);
-else
-  update inventario 
-    set inventario.stock_almacen = inventario.stock_almacen + new.cant_art
-    where inventario.cod_almacen = codAlmRegIng and inventario.cod_art = new.cod_art;
-end if;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_agregar_stock_almacen` AFTER INSERT ON `reg_ing_det` FOR EACH ROW BEGIN
+
+DECLARE codigoAlmacenVal integer;
+
+DECLARE codArticuloVal varchar(12);
+
+
+
+DECLARE codAlmRegIng integer;
+
+
+
+SELECT ric.cod_almacen into codAlmRegIng from reg_ing_cab as ric where ric.cod_reg_in = new.cod_reg_ing;
+
+
+
+select cod_art into codArticuloVal from inventario where cod_almacen = codAlmRegIng and cod_art = new.cod_art;
+
+
+
+select cod_almacen into codigoAlmacenVal from inventario where cod_almacen = codAlmRegIng and cod_art = new.cod_art;
+
+
+
+if codigoAlmacenVal <=> null AND codArticuloVal <=> null THEN
+
+  insert into inventario (cod_almacen,cod_art,stock_almacen) VALUES (codAlmRegIng,new.cod_art,new.cant_art);
+
+else
+
+  update inventario 
+
+    set inventario.stock_almacen = inventario.stock_almacen + new.cant_art
+
+    where inventario.cod_almacen = codAlmRegIng and inventario.cod_art = new.cod_art;
+
+end if;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -931,13 +953,20 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_añadir_aux` AFTER INSERT ON `reg_ing_det` FOR EACH ROW BEGIN
-
-SELECT ric.cod_almacen into @codAlmRegIng from reg_ing_cab as ric where ric.cod_reg_in = new.cod_reg_ing;
-
-    SELECT fec_ing into @fecha FROM reg_ing_cab as ric WHERE ric.cod_reg_in = new.cod_reg_ing;
-
-  	INSERT INTO reg_ing_aux (id_reg_ing,fec_ing, cod_almacen, cod_art, prec_art, cant_art) VALUES (new.cod_reg_ing,@fecha, @codAlmRegIng, new.cod_art, new.prec_unit, new.cant_art);
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_añadir_aux` AFTER INSERT ON `reg_ing_det` FOR EACH ROW BEGIN
+
+
+
+SELECT ric.cod_almacen into @codAlmRegIng from reg_ing_cab as ric where ric.cod_reg_in = new.cod_reg_ing;
+
+
+
+    SELECT fec_ing into @fecha FROM reg_ing_cab as ric WHERE ric.cod_reg_in = new.cod_reg_ing;
+
+
+
+  	INSERT INTO reg_ing_aux (id_reg_ing,fec_ing, cod_almacen, cod_art, prec_art, cant_art) VALUES (new.cod_reg_ing,@fecha, @codAlmRegIng, new.cod_art, new.prec_unit, new.cant_art);
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -953,25 +982,44 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_restar_stock_almacen` AFTER DELETE ON `reg_ing_det` FOR EACH ROW BEGIN
-DECLARE codigoAlmacenVal integer;
-DECLARE codArticuloVal varchar(12);
-
-DECLARE codAlmRegIng integer;
-
-SELECT ric.cod_almacen into codAlmRegIng from reg_ing_cab as ric where ric.cod_reg_in = old.cod_reg_ing;
-
-select cod_art into codArticuloVal from inventario where cod_almacen = codAlmRegIng and cod_art = old.cod_art;
-
-select cod_almacen into codigoAlmacenVal from inventario where cod_almacen = codAlmRegIng and cod_art = old.cod_art;
-
-/*if codigoAlmacenVal <=> null AND codArticuloVal <=> null THEN
-  insert into inventario (cod_almacen,cod_art,stock_almacen) VALUES (codAlmRegIng,old.cod_art,old.cant_art);
-else*/
-  update inventario 
-    set inventario.stock_almacen = inventario.stock_almacen - old.cant_art
-    where inventario.cod_almacen = codAlmRegIng and inventario.cod_art = old.cod_art;
-/*end if;*/
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_restar_stock_almacen` AFTER DELETE ON `reg_ing_det` FOR EACH ROW BEGIN
+
+DECLARE codigoAlmacenVal integer;
+
+DECLARE codArticuloVal varchar(12);
+
+
+
+DECLARE codAlmRegIng integer;
+
+
+
+SELECT ric.cod_almacen into codAlmRegIng from reg_ing_cab as ric where ric.cod_reg_in = old.cod_reg_ing;
+
+
+
+select cod_art into codArticuloVal from inventario where cod_almacen = codAlmRegIng and cod_art = old.cod_art;
+
+
+
+select cod_almacen into codigoAlmacenVal from inventario where cod_almacen = codAlmRegIng and cod_art = old.cod_art;
+
+
+
+/*if codigoAlmacenVal <=> null AND codArticuloVal <=> null THEN
+
+  insert into inventario (cod_almacen,cod_art,stock_almacen) VALUES (codAlmRegIng,old.cod_art,old.cant_art);
+
+else*/
+
+  update inventario 
+
+    set inventario.stock_almacen = inventario.stock_almacen - old.cant_art
+
+    where inventario.cod_almacen = codAlmRegIng and inventario.cod_art = old.cod_art;
+
+/*end if;*/
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1093,16 +1141,26 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_quitar_stock` BEFORE INSERT ON `reg_sal_det` FOR EACH ROW BEGIN
-  DECLARE cant_art_actual integer;
-  select stock_art into cant_art_actual FROM articulo WHERE articulo.cod_art = new.cod_art;
-  IF cant_art_actual > new.cant_art THEN
-   update articulo
-   set articulo.stock_art = articulo.stock_art - new.cant_art
-   WHERE articulo.cod_art = new.cod_art; 
-  ELSE
-    delete from reg_sal_cab WHERE reg_sal_cab.cod_reg_sal = new.cod_reg_sal;
-  END IF;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_quitar_stock` BEFORE INSERT ON `reg_sal_det` FOR EACH ROW BEGIN
+
+  DECLARE cant_art_actual integer;
+
+  select stock_art into cant_art_actual FROM articulo WHERE articulo.cod_art = new.cod_art;
+
+  IF cant_art_actual > new.cant_art THEN
+
+   update articulo
+
+   set articulo.stock_art = articulo.stock_art - new.cant_art
+
+   WHERE articulo.cod_art = new.cod_art; 
+
+  ELSE
+
+    delete from reg_sal_cab WHERE reg_sal_cab.cod_reg_sal = new.cod_reg_sal;
+
+  END IF;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1118,16 +1176,26 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_quitar_stock_almacen` AFTER INSERT ON `reg_sal_det` FOR EACH ROW BEGIN
-
-DECLARE codAlmRegSal integer;
-
-SELECT rsc.cod_almacen INTO codAlmRegSal FROM reg_sal_cab as rsc WHERE rsc.cod_reg_sal = new.cod_reg_sal;
-
-update inventario 
-    set inventario.stock_almacen = inventario.stock_almacen - new.cant_art
-    where inventario.cod_almacen = codAlmRegSal and inventario.cod_art = new.cod_art;
-
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_quitar_stock_almacen` AFTER INSERT ON `reg_sal_det` FOR EACH ROW BEGIN
+
+
+
+DECLARE codAlmRegSal integer;
+
+
+
+SELECT rsc.cod_almacen INTO codAlmRegSal FROM reg_sal_cab as rsc WHERE rsc.cod_reg_sal = new.cod_reg_sal;
+
+
+
+update inventario 
+
+    set inventario.stock_almacen = inventario.stock_almacen - new.cant_art
+
+    where inventario.cod_almacen = codAlmRegSal and inventario.cod_art = new.cod_art;
+
+
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1143,16 +1211,26 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_sumar_stock_almacen` AFTER DELETE ON `reg_sal_det` FOR EACH ROW BEGIN
-
-DECLARE codAlmRegSal integer;
-
-SELECT rsc.cod_almacen INTO codAlmRegSal FROM reg_sal_cab as rsc WHERE rsc.cod_reg_sal = old.cod_reg_sal;
-
-update inventario 
-    set inventario.stock_almacen = inventario.stock_almacen - old.cant_art
-    where inventario.cod_almacen = codAlmRegSal and inventario.cod_art = old.cod_art;
-
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tr_sumar_stock_almacen` AFTER DELETE ON `reg_sal_det` FOR EACH ROW BEGIN
+
+
+
+DECLARE codAlmRegSal integer;
+
+
+
+SELECT rsc.cod_almacen INTO codAlmRegSal FROM reg_sal_cab as rsc WHERE rsc.cod_reg_sal = old.cod_reg_sal;
+
+
+
+update inventario 
+
+    set inventario.stock_almacen = inventario.stock_almacen - old.cant_art
+
+    where inventario.cod_almacen = codAlmRegSal and inventario.cod_art = old.cod_art;
+
+
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1461,15 +1539,24 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `inventario_actual`(IN `cod_alm` INT(11))
-select art.cod_art, 
-art.des_art, 
-um.des_unid_med, 
-inv.stock_almacen, 
-(select sum(reg_ing_aux.cant_art*reg_ing_aux.prec_art) from reg_ing_aux where reg_ing_aux.cod_art = art.cod_art && reg_ing_aux.cod_almacen = cod_alm GROUP BY cod_art) as valor_total 
-FROM articulo as art
-INNER JOIN inventario as inv on inv.cod_art = art.cod_art
-INNER JOIN unid_med as um on um.cod_unid_med = art.cod_unid_med
-where inv.stock_almacen > 0 && 
+select art.cod_art, 
+
+art.des_art, 
+
+um.des_unid_med, 
+
+inv.stock_almacen, 
+
+(select sum(reg_ing_aux.cant_art*reg_ing_aux.prec_art) from reg_ing_aux where reg_ing_aux.cod_art = art.cod_art && reg_ing_aux.cod_almacen = cod_alm GROUP BY cod_art) as valor_total 
+
+FROM articulo as art
+
+INNER JOIN inventario as inv on inv.cod_art = art.cod_art
+
+INNER JOIN unid_med as um on um.cod_unid_med = art.cod_unid_med
+
+where inv.stock_almacen > 0 && 
+
 inv.cod_almacen = cod_alm ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1487,33 +1574,60 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `kardex_articulo`(IN `articulo` VARCHAR(12), IN `fec_ini` DATE, IN `fec_fin` DATE, IN `cod_alm` INT(11))
-select art.cod_art, 'INGRESO' as movimiento,
-    Date_format(ri.fec_ing,'%Y/%m/%d') as FECHA,
-    #ri.fec_ing as FECHA,
-    rid.cant_art as CANT_ING,
-    rid.prec_unit as PREC_ING,
-    rid.prec_unit*rid.cant_art as VAL_ING,
-    '' as CANT_SAL, '' as PREC_SAL, '' as VAL_SAL
-    from articulo as art
-    right join reg_ing_det as rid on rid.cod_art = art.cod_art
-    inner join reg_ing_cab as ri on ri.cod_reg_in = rid.cod_reg_ing 
-    where art.cod_art = articulo && 
-    ri.cod_almacen = cod_alm &&
-    ri.fec_ing BETWEEN CONCAT(fec_ini," 00:00:00") and CONCAT(fec_fin," 23:59:59")
-union
-SELECT art.cod_art, 'SALIDA' as movimiento,
-    Date_format(rs.fec_sal,'%Y/%m/%d') as FECHA,
-    #rs.fec_sal as FECHA,
-    '' as CANT_ING, '' as PREC_ING,'' as VAL_ING,
-    rsd.cant_art as CANT_SAL,
-    rsd.prec_sal as PREC_SAL,
-    rsd.prec_sal*rsd.cant_art as VAL_SAL
-    from articulo as art
-    left join reg_sal_det as rsd on rsd.cod_art = art.cod_art
-    inner join reg_sal_cab as rs on rs.cod_reg_sal = rsd.cod_reg_sal
-    where art.cod_art = articulo  && 
-    rs.cod_almacen = cod_alm &&
-    rs.fec_sal BETWEEN CONCAT(fec_ini," 00:00:00") and CONCAT(fec_fin," 23:59:59")
+select art.cod_art, 'INGRESO' as movimiento,
+
+    Date_format(ri.fec_ing,'%Y/%m/%d') as FECHA,
+
+    #ri.fec_ing as FECHA,
+
+    rid.cant_art as CANT_ING,
+
+    rid.prec_unit as PREC_ING,
+
+    rid.prec_unit*rid.cant_art as VAL_ING,
+
+    '' as CANT_SAL, '' as PREC_SAL, '' as VAL_SAL
+
+    from articulo as art
+
+    right join reg_ing_det as rid on rid.cod_art = art.cod_art
+
+    inner join reg_ing_cab as ri on ri.cod_reg_in = rid.cod_reg_ing 
+
+    where art.cod_art = articulo && 
+
+    ri.cod_almacen = cod_alm &&
+
+    ri.fec_ing BETWEEN CONCAT(fec_ini," 00:00:00") and CONCAT(fec_fin," 23:59:59")
+
+union
+
+SELECT art.cod_art, 'SALIDA' as movimiento,
+
+    Date_format(rs.fec_sal,'%Y/%m/%d') as FECHA,
+
+    #rs.fec_sal as FECHA,
+
+    '' as CANT_ING, '' as PREC_ING,'' as VAL_ING,
+
+    rsd.cant_art as CANT_SAL,
+
+    rsd.prec_sal as PREC_SAL,
+
+    rsd.prec_sal*rsd.cant_art as VAL_SAL
+
+    from articulo as art
+
+    left join reg_sal_det as rsd on rsd.cod_art = art.cod_art
+
+    inner join reg_sal_cab as rs on rs.cod_reg_sal = rsd.cod_reg_sal
+
+    where art.cod_art = articulo  && 
+
+    rs.cod_almacen = cod_alm &&
+
+    rs.fec_sal BETWEEN CONCAT(fec_ini," 00:00:00") and CONCAT(fec_fin," 23:59:59")
+
     order by FECHA asc ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1531,24 +1645,42 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `total_cant_lapso`(IN `articulo` VARCHAR(12), IN `fec_ini` DATE, IN `cod_alm` INT(11))
-select(
-(SELECT stock_almacen FROM inventario WHERE cod_art = articulo && cod_almacen = cod_alm)
--
-(select IFNULL(sum(rid.cant_art),0) as CANT 
-from articulo as art
-right join reg_ing_det as rid on rid.cod_art = art.cod_art
-inner join reg_ing_cab as ri on ri.cod_reg_in = rid.cod_reg_ing 
-where art.cod_art = articulo && 
- ri.cod_almacen = cod_alm &&
- ri.fec_ing BETWEEN CONCAT(fec_ini," 00:00:00") and NOW())
-+
-(select IFNULL(sum(rsd.cant_art),0) as CANT 
-from articulo as art
-left join reg_sal_det as rsd on rsd.cod_art = art.cod_art
-inner join reg_sal_cab as rs on rs.cod_reg_sal = rsd.cod_reg_sal
-where art.cod_art = articulo  &&
- rs.cod_almacen = cod_alm &&
- rs.fec_sal BETWEEN CONCAT(fec_ini," 00:00:00") and NOW() )
+select(
+
+(SELECT stock_almacen FROM inventario WHERE cod_art = articulo && cod_almacen = cod_alm)
+
+-
+
+(select IFNULL(sum(rid.cant_art),0) as CANT 
+
+from articulo as art
+
+right join reg_ing_det as rid on rid.cod_art = art.cod_art
+
+inner join reg_ing_cab as ri on ri.cod_reg_in = rid.cod_reg_ing 
+
+where art.cod_art = articulo && 
+
+ ri.cod_almacen = cod_alm &&
+
+ ri.fec_ing BETWEEN CONCAT(fec_ini," 00:00:00") and NOW())
+
++
+
+(select IFNULL(sum(rsd.cant_art),0) as CANT 
+
+from articulo as art
+
+left join reg_sal_det as rsd on rsd.cod_art = art.cod_art
+
+inner join reg_sal_cab as rs on rs.cod_reg_sal = rsd.cod_reg_sal
+
+where art.cod_art = articulo  &&
+
+ rs.cod_almacen = cod_alm &&
+
+ rs.fec_sal BETWEEN CONCAT(fec_ini," 00:00:00") and NOW() )
+
 ) as cant_ini ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1566,27 +1698,48 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `total_valor_lapso`(IN `articulo` VARCHAR(12), IN `fec_ini` DATE, IN `cod_alm` INT(11))
-begin
-select(
-(SELECT 
-sum(prec_art*cant_art) as TOTAL FROM reg_ing_aux WHERE cod_art = articulo && cod_almacen = cod_alm)
- -
-(select IFNULL(sum(rid.prec_unit*rid.cant_art),0) as TOTAL
-from articulo as art
-right join reg_ing_det as rid on rid.cod_art = art.cod_art
-inner join reg_ing_cab as ri on ri.cod_reg_in = rid.cod_reg_ing 
-where art.cod_art = articulo && 
- ri.cod_almacen = cod_alm &&
- ri.fec_ing BETWEEN CONCAT(fec_ini," 00:00:00") and "2022-12-30 23:00:00")
-+
-(select IFNULL(sum(rsd.prec_sal*rsd.cant_art),0) as TOTAL
-from articulo as art
-left join reg_sal_det as rsd on rsd.cod_art = art.cod_art
-inner join reg_sal_cab as rs on rs.cod_reg_sal = rsd.cod_reg_sal
-where art.cod_art = articulo && 
- rs.cod_almacen = cod_alm &&
- rs.fec_sal BETWEEN CONCAT(fec_ini," 00:00:00") and "2022-12-30 23:00:00" )
-) as total;
+begin
+
+select(
+
+(SELECT 
+
+sum(prec_art*cant_art) as TOTAL FROM reg_ing_aux WHERE cod_art = articulo && cod_almacen = cod_alm)
+
+ -
+
+(select IFNULL(sum(rid.prec_unit*rid.cant_art),0) as TOTAL
+
+from articulo as art
+
+right join reg_ing_det as rid on rid.cod_art = art.cod_art
+
+inner join reg_ing_cab as ri on ri.cod_reg_in = rid.cod_reg_ing 
+
+where art.cod_art = articulo && 
+
+ ri.cod_almacen = cod_alm &&
+
+ ri.fec_ing BETWEEN CONCAT(fec_ini," 00:00:00") and "2022-12-30 23:00:00")
+
++
+
+(select IFNULL(sum(rsd.prec_sal*rsd.cant_art),0) as TOTAL
+
+from articulo as art
+
+left join reg_sal_det as rsd on rsd.cod_art = art.cod_art
+
+inner join reg_sal_cab as rs on rs.cod_reg_sal = rsd.cod_reg_sal
+
+where art.cod_art = articulo && 
+
+ rs.cod_almacen = cod_alm &&
+
+ rs.fec_sal BETWEEN CONCAT(fec_ini," 00:00:00") and "2022-12-30 23:00:00" )
+
+) as total;
+
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
