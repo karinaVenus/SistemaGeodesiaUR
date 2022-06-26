@@ -19,7 +19,7 @@ class UsuarioController extends Controller
 {
     public function login (FormLogin $request)
     {
-        $user = User::where("usuario","=",$request->usuario)->first();
+        $user = User::where([["usuario","=",$request->usuario],['cod_estado_usu','=',1]])->first();
 
         if( isset($user->id) && $user->cod_estado_usu == 1 ){
             if( Hash::check($request->contraseña,$user->contraseña) ){

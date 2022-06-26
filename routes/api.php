@@ -39,6 +39,7 @@ Route::group(['middleware'=>["auth:sanctum"]],function(){
     Route::post('/almacen','App\Http\Controllers\AlmacenController@store');
     Route::get('/almacenEditar/{id}','App\Http\Controllers\AlmacenController@edit');
     Route::put('/almacenUpdate/{id}','App\Http\Controllers\AlmacenController@update');
+    Route::put('/almacenDestroy/{id}','App\Http\Controllers\AlmacenController@destroy');
 //Ingreso insumos ******
     Route::post('/registrosIngresos','App\Http\Controllers\RegIngCabController@index');
     Route::get('/registrosIngresos/create','App\Http\Controllers\RegIngCabController@create');
@@ -105,6 +106,7 @@ Route::group(['middleware'=>["auth:sanctum"]],function(){
     Route::get('/trabajador/{id}','App\Http\Controllers\TrabajadorController@show');
     Route::get('/trabajadorEditar/{id}','App\Http\Controllers\TrabajadorController@edit');
     Route::put('/trabajadorUpdate/{id}','App\Http\Controllers\TrabajadorController@update');
+    Route::put('/trabajadorDestroy/{id}','App\Http\Controllers\TrabajadorController@destroy');
 //proveedor  **********
     Route::post('/proveedores','App\Http\Controllers\ProveedorController@index');    
     Route::get('/proveedor/provincias/{id}','App\Http\Controllers\ProveedorController@provincias');
@@ -114,6 +116,7 @@ Route::group(['middleware'=>["auth:sanctum"]],function(){
     Route::get('/proveedor/{id}','App\Http\Controllers\ProveedorController@show');
     Route::get('/proveedorEditar/{id}','App\Http\Controllers\ProveedorController@edit');
     Route::put('/proveedorUpdate/{id}','App\Http\Controllers\ProveedorController@update');
+    Route::put('/proveedorDestroy/{id}','App\Http\Controllers\ProveedorController@destroy');
 //rol ******
     Route::post('/roles','App\Http\Controllers\RolController@index');
     Route::get('/roles/create','App\Http\Controllers\RolController@create');

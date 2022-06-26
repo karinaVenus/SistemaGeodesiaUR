@@ -256,16 +256,22 @@ class ProveedorController extends Controller
 
     public function destroy($id)
     {
-        $tbl_proveedor = Proveedor::find($id);
-        $tbl_proveedor->estado_prov = 0; // 1:Activo  0:Inactivo BIT
-        $tbl_proveedor->update();
-
-        if($tbl_proveedor->update()){
-            $msg="Registro proveedor deshabilitado";
+        try{
+            DB::beginTransaction();
+            DB::table('proveedor')
+                ->where('cod_prov', $id) 
+                ->limit(1)  
+                ->update(array('estado_prov' => 0));
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'msg' => "error",
+                "error" => $e
+            ], 400 );
         }
-
         return response()->json([
-            'msg' => $msg
-        ], 200, );
+            'msg' => "Proveedor deshabilitado"
+        ], 200 );
     }
 }

@@ -38,11 +38,6 @@ class AlmacenController extends Controller
         ], 200);
     }
 
-    // public function create()
-    // {
-    //     // NO REQUIERE NADA
-    // }
-
     public function store(FormAlmacen $request)
     {
 
@@ -71,11 +66,6 @@ class AlmacenController extends Controller
         ],201);
 
     }
-
-    // public function show($id)
-    // {
-    //     //NO REQUIERE
-    // }
 
     public function edit($id)
     {
@@ -127,7 +117,30 @@ class AlmacenController extends Controller
 
     public function destroy($id)
     {
-        // cambiar estado de almacen
-        // cambiar estado de acceso a 0
+        
+        try{
+            DB::beginTransaction();
+            // cambiar estado de almacen
+            DB::table('almacen')
+                ->where('cod_almacen', $id) 
+                ->limit(1)  
+                ->update(array('cod_estado_almacen' => 2));
+            // cambiar estado de acceso a 0
+            DB::table('acceso')
+                ->where('id_almacen', $id) 
+                ->limit(1)  
+                ->update(array('estado' => 0));
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'msg' => 'error',
+                'error' => $e
+            ], 200);
+        }
+        return response()->json([
+            'msg' => 'Alamacen deshabilitado'
+        ], 200);
+            
     }
 }

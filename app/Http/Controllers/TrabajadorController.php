@@ -177,6 +177,7 @@ class TrabajadorController extends Controller
         $accesos = DB::table('permissions as p')
         ->join('acceso as a','a.id','=','p.id')
         ->select('p.id','name')
+        ->where('a.estado',1)
         ->get();
 
 
@@ -325,6 +326,27 @@ class TrabajadorController extends Controller
 
     public function destroy($id)
     {
-        //
+        try{
+            DB::beginTransaction();
+            DB::table('trabajador')
+                ->where('cod_trabajador', $id) 
+                ->limit(1)  
+                ->update(array('estado_trab' => 0));
+            DB::table('users')
+                ->where('cod_trabajador', $id) 
+                ->limit(1)  
+                ->update(array('cod_estado_usu' => 2));
+            
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'msg' => "error",
+                "error" => $e
+            ], 400 );
+        }
+        return response()->json([
+            'msg' => "Trabajador deshabilitado"
+        ], 200 );
     }
 }
