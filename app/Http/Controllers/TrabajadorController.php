@@ -329,6 +329,7 @@ class TrabajadorController extends Controller
 
     public function destroy($id)
     {
+        
         try{
             DB::beginTransaction();
             DB::table('trabajador')
