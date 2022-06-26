@@ -24,7 +24,7 @@ class FormTrabajadorUpdate extends FormRequest
             'ape_pat_per' =>'required',
             'ape_mat_per' =>'required',
             'cod_t_doc'=>'required',
-            'nro_doc'=>'required|unique:persona|size:8',
+            'nro_doc'=>'required|size:8',
             'correo_per'=>'required|email|max:45',
             'cod_dist'=>'required',
             'dir_per'=>'required|max:450',
