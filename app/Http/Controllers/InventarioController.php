@@ -64,7 +64,8 @@ class InventarioController extends Controller
         ->join('persona as p','p.cod_persona','emp.cod_emp')
         ->select('p.razon_social')
         ->first();
-
+        
+        date_default_timezone_set('America/Lima');
         return response()->json([
             'nom_trabajador' => $nom_trab ,
             'fec_generado' => date('d-m-y h:i:s'),
@@ -74,5 +75,6 @@ class InventarioController extends Controller
             'inventario' => $inventario,
         ], 200);
     }
+
 
 }

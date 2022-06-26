@@ -98,7 +98,7 @@ class KardexController extends Controller
                         ->where('cod_art',$articulo)
                         ->select(DB::raw("CONCAT(cod_art,' / ',des_art) as art_des"))
                         ->first();
-
+        date_default_timezone_set('America/Lima');
         return response()->json([
             'msg' => "Kardex obtenido",
             

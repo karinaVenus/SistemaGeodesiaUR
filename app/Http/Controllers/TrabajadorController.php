@@ -39,7 +39,7 @@ class TrabajadorController extends Controller
             ->join('users as us','us.cod_trabajador','=','tr.cod_trabajador')
             ->leftJoin('model_has_roles as mr','mr.model_id','=','us.id')
             ->leftJoin('roles as r','r.id','=','mr.role_id')
-            ->select('tr.cod_trabajador as idTrabajador','per.nom_per as nombre','per.ape_pat_per as ape_paterno',
+            ->select('tr.cod_trabajador as idTrabajador','per.nom_per as nombre','per.ape_pat_per as ape_paterno','per.nro_doc',
                     'per.ape_mat_per as ape_materno','r.name as rol')
             ->where([['per.nom_per','LIKE', '%' . $busqueda . '%'],['estado_trab','=',1]])
             ->orwhere('per.ape_pat_per','LIKE','%' . $busqueda . '%')
