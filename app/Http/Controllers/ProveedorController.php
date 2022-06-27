@@ -153,7 +153,7 @@ class ProveedorController extends Controller
         ->join('departamento as dpt','provi.cod_dep','=','dpt.cod_dpt')
         ->select('p.cod_prov','tp.des_t_per','pep.razon_social as proveedor','tdi.dest_doc','pep.nro_doc','pep.correo_per','dpt.des_dpt','provi.des_provi','dist.des_distrito','pep.dir_per')
         ->where('p.cod_prov','=',$id)
-        ->get();
+        ->first();
 
         $telefono = DB::table('proveedor as p')
         ->join('persona as pep','p.cod_prov','=','pep.cod_persona')
