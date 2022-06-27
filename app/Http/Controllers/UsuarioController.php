@@ -70,7 +70,7 @@ class UsuarioController extends Controller
         ]);
     }
 
-    public function profile($id)
+    public function profile(/*$id*/)
     {
         $trabajador = auth()->user()->cod_trabajador;
         $id_user = auth()->user()->id;
@@ -83,7 +83,7 @@ class UsuarioController extends Controller
                 ->join('departamento as dpt','provi.cod_dep','=','dpt.cod_dpt')
                 ->select('u.id as usuario','p.nom_per','p.ape_pat_per','p.ape_mat_per','tdi.dest_doc',
                         'p.nro_doc','p.correo_per','dpt.des_dpt','provi.des_provi','dist.des_distrito','p.dir_per')
-                ->where('p.cod_persona','=',$id)
+                //->where('p.cod_persona','=',$id)
                 ->where('t.cod_trabajador',$trabajador)
                 ->first();
 

@@ -23,7 +23,8 @@ class FormProveedorUpdate extends FormRequest
             'correo_per'=>'required|email|max:45',
             'cod_dist'=>'required',
             'dir_per'=>'required|max:450',
-            'nro_telf'=>'required|max:9'
+            'nro_telf'=>'required|array',
+            'nro_telf.*'=>'required|between:7,9'// el * especifica que analice cada item del array
         ];
     }
     protected function failedValidation(Validator $validator)
