@@ -42,8 +42,10 @@ class TrabajadorController extends Controller
             ->select('tr.cod_trabajador as idTrabajador','per.nom_per as nombre','per.ape_pat_per as ape_paterno','per.nro_doc',
                     'per.ape_mat_per as ape_materno','r.name as rol')
             ->where([['per.nom_per','LIKE', '%' . $busqueda . '%'],['estado_trab','=',1]])
-            ->orwhere('per.ape_pat_per','LIKE','%' . $busqueda . '%')
-            ->orwhere('per.ape_pat_per','LIKE','%' . $busqueda . '%')
+            ->orwhere([['per.ape_pat_per','LIKE','%' . $busqueda . '%'],['estado_trab','=',1]])
+            ->orwhere([['per.ape_pat_per','LIKE','%' . $busqueda . '%'],['estado_trab','=',1]])
+            ->orwhere([['r.name','LIKE','%' . $busqueda . '%'],['estado_trab','=',1]])
+            ->orwhere([['per.nro_doc','LIKE','%' . $busqueda . '%'],['estado_trab','=',1]])
             ->orderBy('per.nom_per', 'asc')
          ->paginate(15);
 
