@@ -33,8 +33,8 @@ class ProveedorController extends Controller
         $proveedor = DB::table('proveedor as p')
             ->join('persona as pep','p.cod_prov','=','pep.cod_persona')
             ->select('p.cod_prov','pep.razon_social as proveedor','pep.nro_doc as ruc')
-            ->where([['pep.razon_social','LIKE', '%'.$busqueda.'%'],['estado_prov','=',1]])
-            ->orwhere('pep.nro_doc','LIKE', '%'.$busqueda.'%')
+            ->where([['pep.razon_social','LIKE', '%'.$busqueda.'%'],['p.estado_prov',1]])
+            ->orwhere([['pep.nro_doc','LIKE', '%'.$busqueda.'%'],['p.estado_prov',1]])
             ->orderBy('p.cod_prov','desc')
             ->paginate(7);
 
