@@ -222,7 +222,7 @@ class TrabajadorController extends Controller
                     ->join('departamento as de','de.cod_dpt','=','p.cod_dep')
                     ->join('tipo_persona as tp','tp.cod_t_per','=','per.cod_t_per')
                     ->join('tdoc_ide as ti','ti.cod_t_doc','=','per.cod_t_doc')
-                    ->select('per.cod_persona','tp.des_t_per','per.nom_per','per.ape_pat_per','per.ape_mat_per','ti.dest_doc','per.nro_doc','per.correo_per','de.des_dpt','p.des_provi','d.des_distrito')
+                    ->select('per.cod_persona','tp.des_t_per','per.nom_per','per.ape_pat_per','per.ape_mat_per','ti.dest_doc','per.nro_doc','per.correo_per','de.des_dpt','p.des_provi','d.des_distrito','per.dir_per')
                     ->where('cod_persona',$id)
                     ->first();
         $telefono = DB::table('persona as pep')
