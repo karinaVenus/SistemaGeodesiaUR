@@ -9,7 +9,7 @@ class KardexController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:generar-kardex|generar-kardex')->only(['index','inventario','articulos']);
+        $this->middleware('permission:generar-kardex')->only(['index','kardex','articulos']);
     }
 
     public function index()
