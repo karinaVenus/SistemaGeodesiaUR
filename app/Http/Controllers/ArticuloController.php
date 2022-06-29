@@ -36,7 +36,9 @@ class ArticuloController extends Controller
             ->join('presentacion as pr','art.cod_pres','=','pr.cod_pres')
             ->join('unid_med as um','art.cod_unid_med','=','um.cod_unid_med')
             ->select('art.cod_art','art.des_art','cat.des_cat','pr.des_pres','um.des_unid_med')
-            ->where([['art.des_art','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',1]])
+            ->where([['art.cod_art','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',1]])
+            ->orwhere([['art.des_art','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',1]])
+            ->orwhere([['pr.des_pres','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',1]])
             ->orderBy('art.des_art', 'desc')
             ->paginate(5);
 

@@ -42,8 +42,10 @@ class RegSalCabController extends Controller
         ->select('rc.cod_reg_sal',DB::raw("CONCAT(pAut.nom_per,' ',pAut.ape_pat_per,' ',pAut.ape_mat_per) AS autoriza"),DB::raw("CONCAT(pSol.nom_per,' ',pSol.ape_pat_per,' ',pSol.ape_mat_per) AS solicita"),'a.des_almacen','tt.des_transf','rc.fec_sal')
         ->where('a.des_almacen','LIKE', '%'.$busqueda.'%')
         ->wherein('a.des_almacen',$accesos)
-        ->orwhere(DB::raw('CONCAT(pAut.nom_per," ",pAut.ape_pat_per," ",pAut.ape_mat_per)'),'LIKE', '%'.$busqueda.'%') //busqueda
-        ->orwhere(DB::raw('CONCAT(pSol.nom_per," ",pSol.ape_pat_per," ",pSol.ape_mat_per)'),'LIKE', '%'.$busqueda.'%') //busqueda
+        ->orwhere(DB::raw('CONCAT(pAut.nom_per," ",pAut.ape_pat_per," ",pAut.ape_mat_per)'),'LIKE', '%'.$busqueda.'%') 
+        ->orwhere(DB::raw('CONCAT(pSol.nom_per," ",pSol.ape_pat_per," ",pSol.ape_mat_per)'),'LIKE', '%'.$busqueda.'%') 
+        ->orwhere('tt.des_transf','LIKE', '%'.$busqueda.'%')
+        ->orwhere('rc.fec_sal','LIKE', '%'.$busqueda.'%')
         ->orderBy('rc.fec_sal','desc')
         ->paginate(7);
 

@@ -42,10 +42,11 @@ class RegIngCabController extends Controller
         ->join('persona as pet','t.cod_trabajador','=','pet.cod_persona')
         ->select('rc.cod_reg_in','pep.razon_social AS proveedor',DB::raw("CONCAT(pet.nom_per,' ',pet.ape_pat_per,' ',pet.ape_mat_per) AS trabajador"),'a.des_almacen','tt.des_transf','rc.fec_ing')
         ->where(DB::raw('CONCAT(pet.nom_per," ",pet.ape_pat_per," ",pet.ape_mat_per)'),'LIKE', '%'.$busqueda.'%') 
-        ->where('a.des_almacen','LIKE','%'.$busqueda.'%')
-        ->wherein('a.des_almacen',$accesos)
+        ->orwhere('a.des_almacen','LIKE','%'.$busqueda.'%')
         ->orwhere('pep.razon_social','LIKE', '%'.$busqueda.'%') 
         ->orwhere('tt.des_transf','LIKE', '%'.$busqueda.'%') 
+        ->orwhere('rc.fec_ing','LIKE', '%'.$busqueda.'%') 
+        ->wherein('a.des_almacen',$accesos)
         ->orderBy('rc.fec_ing','desc')
         ->paginate(7);
             
@@ -56,7 +57,6 @@ class RegIngCabController extends Controller
   
     public function create()
     {
-
         $proveedor = DB::table('proveedor as p')
         ->join('persona as pep','p.cod_prov','=','pep.cod_persona')
         ->join('tdoc_ide as tdi','pep.cod_t_doc','=','tdi.cod_t_doc')

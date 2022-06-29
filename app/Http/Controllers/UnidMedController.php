@@ -29,6 +29,7 @@ class UnidMedController extends Controller
         $unid_med = DB::table('unid_med')
             ->select('cod_unid_med','des_unid_med','prefijo_unid_med')
             ->where([['des_unid_med','LIKE', '%'.$busqueda.'%'],['estado_unid_med','=','Activo']])
+            ->orwhere([['prefijo_unid_med','LIKE', '%'.$busqueda.'%'],['estado_unid_med','=','Activo']])
             ->orderBy('cod_unid_med','desc')
             ->paginate(7);
 

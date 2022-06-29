@@ -28,7 +28,8 @@ class TipoDocRegController extends Controller
 
         $tipo_doc_reg = DB::table('tipo_doc_reg')
             ->select('cod_t_doc','tipo_reg_doc','des_t_doc')
-            ->where([['des_t_doc','LIKE', '%'.$busqueda.'%'],['estado_t_doc','=',1]]) //busqueda
+            ->where([['tipo_reg_doc','LIKE', '%'.$busqueda.'%'],['estado_t_doc','=',1]]) 
+            ->orwhere([['des_t_doc','LIKE', '%'.$busqueda.'%'],['estado_t_doc','=',1]]) 
             ->orderBy('cod_t_doc','desc')
             ->paginate(7);
 
