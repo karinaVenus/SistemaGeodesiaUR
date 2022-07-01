@@ -93,7 +93,15 @@ class UsuarioController extends Controller
             ]);
         }
 
+        $telefono = DB::table('persona as pep')
+                ->join('trabajador as t','t.cod_trabajador','=','pep.cod_persona')
+                ->join('telefono as telf','pep.cod_persona','=','telf.cod_persona')
+                ->select('telf.nro_telf')
+                ->where('pep.cod_persona','=',$trabajador)
+                ->get();
+
         return response()->json([
+            'telefono' => $telefono,
             "perfil" => $perfil,
             "id_usuario" => $id_user
         ]);
@@ -107,12 +115,12 @@ class UsuarioController extends Controller
     
     public function updatePassword(FormChangePass $request,$id)
     {
-        $id_confirm = auth()->user()->cod_trabajador;
+        $id_confirm = auth()->user()->id;
         if($id_confirm == $id){
             $contra = Hash::make($request->get('password')) ;
 
             DB::table('users')
-            ->where('cod_trabajador', $id)
+            ->where('id', $id)
             ->limit(1) 
             ->update(array('contraseña' => $contra));
 
@@ -123,7 +131,8 @@ class UsuarioController extends Controller
         }else{
             return response()->json([
                 "msg" => "Error al actualizar",
-                "x" =>$id_confirm
+                "x" =>$id_confirm,
+                "id_recibid"  =>$id
             ], 200);
         }
     }
