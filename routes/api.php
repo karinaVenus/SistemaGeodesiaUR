@@ -123,7 +123,7 @@ Route::group(['middleware'=>["auth:sanctum"]],function(){
     Route::put('/trabajadorUpdate/{id}','App\Http\Controllers\TrabajadorController@update');
     Route::put('/trabajadorDestroy/{id}','App\Http\Controllers\TrabajadorController@destroy');
     Route::post('/trabajadoresDeleted','App\Http\Controllers\TrabajadorController@indexDeleted');
-    Route::put('/trabajadorRestore','App\Http\Controllers\TrabajadorController@restore');
+    Route::put('/trabajadorRestore/{id}','App\Http\Controllers\TrabajadorController@restore');
 //proveedor  **********
     Route::post('/proveedores','App\Http\Controllers\ProveedorController@index');    
     Route::get('/proveedor/provincias/{id}','App\Http\Controllers\ProveedorController@provincias');
