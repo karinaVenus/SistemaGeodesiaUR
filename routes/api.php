@@ -43,7 +43,7 @@ Route::group(['middleware'=>["auth:sanctum"]],function(){
     Route::get('/almacenEditar/{id}','App\Http\Controllers\AlmacenController@edit');
     Route::put('/almacenUpdate/{id}','App\Http\Controllers\AlmacenController@update');
     Route::put('/almacenDestroy/{id}','App\Http\Controllers\AlmacenController@destroy');
-    Route::post('/almacenesDisabled','App\Http\Controllers\AlmacenController@indexDeleted');
+    Route::post('/almacenesDeleted','App\Http\Controllers\AlmacenController@indexDeleted');
     Route::put('/almacenRestore/{id}','App\Http\Controllers\AlmacenController@restore');
 //Ingreso insumos ******
     Route::post('/registrosIngresos','App\Http\Controllers\RegIngCabController@index');
