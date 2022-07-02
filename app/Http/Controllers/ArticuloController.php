@@ -186,6 +186,45 @@ class ArticuloController extends Controller
 
         return response()->json([
             'msg' => $msg
-        ], 200, );
+        ], 200);
     }
+
+    public function indexDeleted(Request $request)
+    {
+        $busqueda = "";
+        if($request){
+            $busqueda = trim($request->get('searchText'));
+        }
+        //valida tema imagen
+        $articulo = DB::table('articulo as art')
+            ->join('categoria as cat','art.cod_cat','=','cat.cod_cat')
+            ->join('presentacion as pr','art.cod_pres','=','pr.cod_pres')
+            ->join('unid_med as um','art.cod_unid_med','=','um.cod_unid_med')
+            ->select('art.cod_art','art.des_art','cat.des_cat','pr.des_pres','um.des_unid_med')
+            ->where([['art.cod_art','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',2]])
+            ->orwhere([['art.des_art','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',2]])
+            ->orwhere([['pr.des_pres','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',2]])
+            ->orderBy('art.des_art', 'desc')
+            ->paginate(5);
+
+        return response()->json([
+            "articulos" => $articulo
+        ], 200);
+    }
+
+    public function restore($id)
+    {
+        $articulo = Articulo::find($id);
+        $articulo->cod_estado_art = 1; // 1:Activo  2:Inactivo
+        $articulo->update();
+
+        if($articulo->update()){
+            $msg="Registro articulo habilitado";
+        }
+
+        return response()->json([
+            'msg' => $msg
+        ], 200);
+    }
+
 }

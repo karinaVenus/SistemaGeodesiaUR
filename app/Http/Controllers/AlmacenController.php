@@ -143,4 +143,48 @@ class AlmacenController extends Controller
         ], 200);
             
     }
+
+    public function indexDeleted(Request $request)
+    {
+        $busqueda = "";
+        if($request){
+            $busqueda = trim($request->get('searchText'));
+        }
+        $almacenes = Almacen::where([['cod_estado_almacen','=',2],['des_almacen','like','%'.$busqueda.'%']])
+                    ->orderby('cod_estado_almacen','desc')
+                    ->paginate(5,['cod_almacen','des_almacen','ubic_almacen']);
+
+        return response()->json([
+            "almacenes" => $almacenes
+        ], 200);
+    }
+
+    public function restore($id)
+    {
+        
+        try{
+            DB::beginTransaction();
+            // cambiar estado de almacen
+            DB::table('almacen')
+                ->where('cod_almacen', $id) 
+                ->limit(1)  
+                ->update(array('cod_estado_almacen' => 1));
+            // cambiar estado de acceso a 0
+            DB::table('acceso')
+                ->where('id_almacen', $id) 
+                ->limit(1)  
+                ->update(array('estado' => 1));
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'msg' => 'error',
+                'error' => $e
+            ], 200);
+        }
+        return response()->json([
+            'msg' => 'Alamacen habilitado'
+        ], 200);
+            
+    }
 }

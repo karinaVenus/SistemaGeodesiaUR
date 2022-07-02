@@ -38,12 +38,6 @@ class CategoriaController extends Controller
         
     }
 
-
-    // public function create()
-    // {
-    //     //NO REQUIERE
-    // }
-
     public function store(FormCategoria $request)
     {
         try{
@@ -59,18 +53,6 @@ class CategoriaController extends Controller
             'categoria' => $categoria
         ], 200, );
     }
-
-    // public function show($id)
-    // {
-    //     $categoria = DB::table('categoria')
-    //     ->select('cod_cat','des_cat')
-    //     ->where('cod_cat','=',$id)
-    //     ->get();
-
-    //     return response()->json([
-    //         "categoria" => $categoria
-    //     ], 200,);
-    // }
 
     public function edit($id)
     {
@@ -114,6 +96,40 @@ class CategoriaController extends Controller
 
         if($categoria->update()){
             $msg="Registro categoria deshabilitado";
+        }
+
+        return response()->json([
+            'msg' => $msg
+        ], 200, );
+    }
+
+    public function indexDeleted(Request $request)
+    {
+        $busqueda = "";
+        if($request){
+            $busqueda = trim($request->get('searchText'));
+        }
+
+        $categoria = DB::table('categoria')
+        ->select('cod_cat','des_cat')
+        ->where([['des_cat','LIKE', '%' . $busqueda . '%'],['estado_cat','=','Inactivo']]) 
+        ->orderBy('cod_cat','desc')
+        ->paginate(7);
+
+        return response()->json([
+            "categorias" => $categoria
+        ], 200);
+        
+    }
+
+    public function restore($id)
+    {
+        $categoria = Categoria::find($id);
+        $categoria->estado_cat = "Activo"; // 1:Activo  2:Inactivo
+        $categoria->update();
+
+        if($categoria->update()){
+            $msg="Registro categoria habilitado";
         }
 
         return response()->json([

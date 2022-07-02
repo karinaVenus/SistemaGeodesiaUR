@@ -39,11 +39,6 @@ class TipoDocRegController extends Controller
 
     }
 
-    // public function create()
-    // {
-    //     // NO REQUIERE
-    // }
-
     public function store(FormTipo_doc_reg $request)
     {
         try{
@@ -60,19 +55,6 @@ class TipoDocRegController extends Controller
             'tipo_doc_reg' => $tipo_doc_reg
         ], 200, );
     }
-
-    // public function show($id)
-    // {
-    //     // NO REQUIERE
-    //     $tipo_doc_reg = DB::table('tipo_doc_reg')
-    //     ->select('cod_t_doc','tipo_reg_doc','des_t_doc')
-    //     ->where('cod_t_doc','=',$id)
-    //     ->get();
-
-    //     return response()->json([
-    //         "tipo_doc_reg" => $tipo_doc_reg
-    //     ], 200,);
-    // }
 
     public function edit($id)
     {
@@ -114,6 +96,41 @@ class TipoDocRegController extends Controller
 
         if($tipo_doc_reg->update()){
             $msg="Registro tipo documento deshabilitado";
+        }
+
+        return response()->json([
+            'msg' => $msg
+        ], 200, );
+    }
+
+    public function indexDeleted(Request $request)
+    {
+        $busqueda = "";
+        if($request){
+            $busqueda = trim($request->get('searchText'));
+        }
+
+        $tipo_doc_reg = DB::table('tipo_doc_reg')
+            ->select('cod_t_doc','tipo_reg_doc','des_t_doc')
+            ->where([['tipo_reg_doc','LIKE', '%'.$busqueda.'%'],['estado_t_doc','=',0]]) 
+            ->orwhere([['des_t_doc','LIKE', '%'.$busqueda.'%'],['estado_t_doc','=',0]]) 
+            ->orderBy('cod_t_doc','desc')
+            ->paginate(7);
+
+        return response()->json([
+            "tipo_doc_reg" => $tipo_doc_reg
+        ], 200);
+
+    }
+
+    public function restore($id)
+    {
+        $tipo_doc_reg = Tipo_doc_reg::find($id);
+        $tipo_doc_reg->estado_t_doc = 1; // 1:Activo  0:Inactivo
+        $tipo_doc_reg->update();
+
+        if($tipo_doc_reg->update()){
+            $msg="Registro tipo documento habilitado";
         }
 
         return response()->json([

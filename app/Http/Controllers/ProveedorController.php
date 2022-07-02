@@ -274,4 +274,48 @@ class ProveedorController extends Controller
             'msg' => "Proveedor deshabilitado"
         ], 200 );
     }
+
+    public function indexDeleted(Request $request)
+    {
+
+        $busqueda = "";
+        if($request){
+            $busqueda = trim($request->get('searchText'));
+        }
+
+        $proveedor = DB::table('proveedor as p')
+            ->join('persona as pep','p.cod_prov','=','pep.cod_persona')
+            ->select('p.cod_prov','pep.razon_social as proveedor','pep.nro_doc as ruc')
+            ->where([['pep.razon_social','LIKE', '%'.$busqueda.'%'],['p.estado_prov',0]])
+            ->orwhere([['pep.nro_doc','LIKE', '%'.$busqueda.'%'],['p.estado_prov',0]])
+            ->orderBy('p.cod_prov','desc')
+            ->paginate(7);
+
+        return response()->json([
+            "proveedor" => $proveedor
+        ], 200);
+
+    }
+
+    public function restore($id)
+    {
+        try{
+            DB::beginTransaction();
+            DB::table('proveedor')
+                ->where('cod_prov', $id) 
+                ->limit(1)  
+                ->update(array('estado_prov' => 1));
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'msg' => "error",
+                "error" => $e
+            ], 400 );
+        }
+        return response()->json([
+            'msg' => "Proveedor habilitado"
+        ], 200 );
+    }
+
 }

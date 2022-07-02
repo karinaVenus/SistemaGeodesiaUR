@@ -38,11 +38,6 @@ class TipoTransfController extends Controller
         ], 200);
     }
 
-    // public function create()
-    // {
-    //     // NO REQUIERE
-    // }
-
     public function store(FormTipo_Transf $request)
     {
         try{
@@ -58,19 +53,6 @@ class TipoTransfController extends Controller
             'tipo_transf' => $tipo_transf
         ], 200, );
     }
-
-    // public function show($id)
-    // {
-    //      // NO REQUIERE
-    //     $tipo_transf = DB::table('tipo_transf')
-    //     ->select('cod_t_transf','des_transf')
-    //     ->where('cod_t_transf','=',$id)
-    //     ->get();
-
-    //     return response()->json([
-    //         "tipo_transf" => $tipo_transf
-    //     ], 200,);
-    // }
 
     public function edit($id)
     {
@@ -111,6 +93,40 @@ class TipoTransfController extends Controller
 
         if($tipo_transf->update()){
             $msg="Registro tipo de transferencia deshabilitado";
+        }
+
+        return response()->json([
+            'msg' => $msg
+        ], 200, );
+    }
+
+    public function indexDeleted(Request $request)
+    {
+
+        $busqueda = "";
+        if($request){
+            $busqueda = trim($request->get('searchText'));
+        }
+
+        $tipo_transf = DB::table('tipo_transf')
+            ->select('cod_t_transf','des_transf')
+            ->where([['des_transf','LIKE', '%'.$busqueda.'%'],['estado_transf','=','Inactivo']]) 
+            ->orderBy('cod_t_transf','desc')
+            ->paginate(7);
+
+        return response()->json([
+            "tipo_transf" => $tipo_transf
+        ], 200);
+    }
+
+    public function restore($id)
+    {
+        $tipo_transf = Tipo_Transf::find($id);
+        $tipo_transf->estado_transf = "Activo"; // 1:Activo  2:Inactivo
+        $tipo_transf->update();
+
+        if($tipo_transf->update()){
+            $msg="Registro tipo de transferencia habilitado";
         }
 
         return response()->json([
