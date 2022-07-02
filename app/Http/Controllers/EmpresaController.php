@@ -30,23 +30,23 @@ class EmpresaController extends Controller
     {
         $empresa = DB::table('empresa as emp')
         ->join('persona as p','p.cod_persona','emp.cod_emp')
-        ->select('emp.cod_emp','emp.logo','p.cod_t_per','p.razon_social','p.cod_t_doc','p.nro_doc','p.correo_per')
+        ->select('emp.cod_emp','p.razon_social','p.nro_doc','p.correo_per')
         ->where('emp.cod_emp',$id)
         ->first();
 
-        $tdoc_ide = DB::table('tdoc_ide') 
-        ->select('cod_t_doc','dest_doc')
-        ->orderBy('cod_t_doc','asc')
-        ->get();
-        $tipo_persona = DB::table('tipo_persona') 
-        ->select('cod_t_per','des_t_per')
-        ->orderBy('cod_t_per','asc')
-        ->get();
+        // $tdoc_ide = DB::table('tdoc_ide') 
+        // ->select('cod_t_doc','dest_doc')
+        // ->orderBy('cod_t_doc','asc')
+        // ->get();
+        // $tipo_persona = DB::table('tipo_persona') 
+        // ->select('cod_t_per','des_t_per')
+        // ->orderBy('cod_t_per','asc')
+        // ->get();
 
         return response()->json([
         "empresa" => $empresa,
-        "tdoc_ide"=>$tdoc_ide,
-        "tipo_persona"=>$tipo_persona
+     //   "tdoc_ide"=>$tdoc_ide,
+       // "tipo_persona"=>$tipo_persona
         ], 200);
     }
 
@@ -55,16 +55,16 @@ class EmpresaController extends Controller
         try{
             DB::beginTransaction();
             $empresa = Persona::find($id);
-            $empresa->cod_t_per = $request->get('cod_t_per');
+            //$empresa->cod_t_per = $request->get('cod_t_per');
             $empresa->razon_social = $request->get('razon_social');
-            $empresa->cod_t_doc = $request->get('cod_t_doc');
+            //$empresa->cod_t_doc = $request->get('cod_t_doc');
             $empresa->nro_doc = $request->get('nro_doc');
             $empresa->correo_per = $request->get('correo_per');
             $empresa->update();
 
-            DB::table('empresa')
-              ->where('cod_emp', $empresa->cod_persona)
-              ->update(['logo' => $request->logo]);
+            // DB::table('empresa')
+            //   ->where('cod_emp', $empresa->cod_persona)
+            //   ->update(['logo' => $request->logo]);
             
             DB::commit();
         }catch(Exception $e){
