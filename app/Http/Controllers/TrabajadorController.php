@@ -355,4 +355,60 @@ class TrabajadorController extends Controller
             'msg' => "Trabajador deshabilitado"
         ], 200 );
     }
+
+    public function indexDeleted(Request $request)
+    {
+        // Listar travbajadores, Nombre, Apellido Mat, Ape Pat, Rol
+        $busqueda = "";
+        if($request){
+            $busqueda = trim($request->get('searchText'));
+        }
+        $trabajadores = DB::table('persona as per')
+            ->rightJoin('trabajador as tr','tr.cod_trabajador','=','per.cod_persona')
+            ->join('users as us','us.cod_trabajador','=','tr.cod_trabajador')
+            ->leftJoin('model_has_roles as mr','mr.model_id','=','us.id')
+            ->leftJoin('roles as r','r.id','=','mr.role_id')
+            ->select('tr.cod_trabajador as idTrabajador','per.nom_per as nombre','per.ape_pat_per as ape_paterno','per.nro_doc',
+                    'per.ape_mat_per as ape_materno','r.name as rol')
+            ->where([['per.nom_per','LIKE', '%' . $busqueda . '%'],['estado_trab','=',0]])
+            ->orwhere([['per.ape_pat_per','LIKE','%' . $busqueda . '%'],['estado_trab','=',0]])
+            ->orwhere([['per.ape_pat_per','LIKE','%' . $busqueda . '%'],['estado_trab','=',0]])
+            ->orwhere([['r.name','LIKE','%' . $busqueda . '%'],['estado_trab','=',0]])
+            ->orwhere([['per.nro_doc','LIKE','%' . $busqueda . '%'],['estado_trab','=',0]])
+            ->orderBy('per.nom_per', 'asc')
+         ->paginate(15);
+
+        return response()->json([
+            "trabajadores" => $trabajadores
+        ], 200);
+
+    }
+
+    public function restore($id)
+    {
+        
+        try{
+            DB::beginTransaction();
+            DB::table('trabajador')
+                ->where('cod_trabajador', $id) 
+                ->limit(1)  
+                ->update(array('estado_trab' => 1));
+            DB::table('users')
+                ->where('cod_trabajador', $id) 
+                ->limit(1)  
+                ->update(array('cod_estado_usu' => 1));
+            
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'msg' => "error",
+                "error" => $e
+            ], 400 );
+        }
+        return response()->json([
+            'msg' => "Trabajador habilitado"
+        ], 200 );
+    }
+
 }

@@ -131,4 +131,44 @@ class PresentacionController extends Controller
         ], 200, );  
 
     }
+
+    public function indexDeleted(Request $request)
+    {
+        $busqueda = "";
+        if($request){
+            $busqueda = trim($request->get('searchText'));
+        }
+
+        $presentacion = DB::table('presentacion')
+            ->select('cod_pres','des_pres')
+            ->where([['des_pres','LIKE', '%' . $busqueda . '%'],['estado_pres','=','Inactivo']]) //busqueda
+            ->orderBy('cod_pres','desc')
+            ->paginate(7);
+
+        return response()->json([
+            "presentaciones" => $presentacion
+        ], 200);
+    }
+
+    public function restore($id)
+    {
+
+        try{
+            DB::beginTransaction();
+            $presentacion = Presentacion::find($id);
+            $presentacion->estado_pres = "Activo"; // 1:Activo  2:Inactivo
+            $presentacion->update();
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'msg' => "Error al habilitar registro",
+                'error' => $e
+            ], 200, ); 
+        }
+        return response()->json([
+            'msg' => "Registro presentacion habilitado",
+        ], 200, );  
+
+    }
 }

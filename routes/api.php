@@ -35,12 +35,16 @@ Route::group(['middleware'=>["auth:sanctum"]],function(){
     Route::get('/articuloEditar/{id}','App\Http\Controllers\ArticuloController@edit');
     Route::put('/articuloUpdate/{id}','App\Http\Controllers\ArticuloController@update');
     Route::put('/articuloDestroy/{id}','App\Http\Controllers\ArticuloController@destroy');
+    Route::post('/articulosDeleted','App\Http\Controllers\ArticuloController@indexDeleted');
+    Route::put('/articuloRestore/{id}','App\Http\Controllers\ArticuloController@restore');
 //almacen  *********
     Route::post('/almacenes','App\Http\Controllers\AlmacenController@index');
     Route::post('/almacen','App\Http\Controllers\AlmacenController@store');
     Route::get('/almacenEditar/{id}','App\Http\Controllers\AlmacenController@edit');
     Route::put('/almacenUpdate/{id}','App\Http\Controllers\AlmacenController@update');
     Route::put('/almacenDestroy/{id}','App\Http\Controllers\AlmacenController@destroy');
+    Route::post('/almacenesDisabled','App\Http\Controllers\AlmacenController@indexDeleted');
+    Route::put('/almacenRestore/{id}','App\Http\Controllers\AlmacenController@restore');
 //Ingreso insumos ******
     Route::post('/registrosIngresos','App\Http\Controllers\RegIngCabController@index');
     Route::get('/registrosIngresos/create','App\Http\Controllers\RegIngCabController@create');
@@ -55,30 +59,40 @@ Route::group(['middleware'=>["auth:sanctum"]],function(){
     Route::get('/presentacionEditar/{id}','App\Http\Controllers\PresentacionController@edit');
     Route::put('/presentacionUpdate/{id}','App\Http\Controllers\PresentacionController@update');
     Route::put('/presentacionDestroy/{id}','App\Http\Controllers\PresentacionController@destroy');
+    Route::post('/presentacionesDeleted','App\Http\Controllers\PresentacionController@indexDeleted');
+    Route::put('/presentacionRestore/{id}','App\Http\Controllers\PresentacionController@restore');
 //categorias  ********
     Route::post('/categorias','App\Http\Controllers\CategoriaController@index');
     Route::post('/categoria','App\Http\Controllers\CategoriaController@store');
     Route::get('/categoriaEditar/{id}','App\Http\Controllers\CategoriaController@edit');
     Route::put('/categoriaUpdate/{id}','App\Http\Controllers\CategoriaController@update');
     Route::put('/categoriaDestroy/{id}','App\Http\Controllers\CategoriaController@destroy');
+    Route::post('/categoriasDeleted','App\Http\Controllers\CategoriaController@indexDeleted');
+    Route::put('/categoriaRestore/{id}','App\Http\Controllers\CategoriaController@restore');
 //unidad medida  ******
     Route::post('/unidadesMedida','App\Http\Controllers\UnidMedController@index');
     Route::post('/unidadMedida','App\Http\Controllers\UnidMedController@store');
     Route::get('/unidadMedidaEditar/{id}','App\Http\Controllers\UnidMedController@edit');
     Route::put('/unidadMedidaUpdate/{id}','App\Http\Controllers\UnidMedController@update');
     Route::put('/unidadMedidaDestroy/{id}','App\Http\Controllers\UnidMedController@destroy');
+    Route::post('/unidadesMedidaDeleted','App\Http\Controllers\UnidMedController@indexDeleted');
+    Route::put('/unidadMedidaRestore/{id}','App\Http\Controllers\UnidMedController@restore');
 //tipo transferencias  *********
     Route::post('/tiposTransferencias','App\Http\Controllers\TipoTransfController@index');
     Route::post('/tipoTransferencia','App\Http\Controllers\TipoTransfController@store');
     Route::get('/tipoTransferenciaEditar/{id}','App\Http\Controllers\TipoTransfController@edit');
     Route::put('/tipoTransferenciaUpdate/{id}','App\Http\Controllers\TipoTransfController@update');
     Route::put('/tipoTransferenciaDestroy/{id}','App\Http\Controllers\TipoTransfController@destroy');
+    Route::post('/tiposTransferenciasDeleted','App\Http\Controllers\TipoTransfController@indexDeleted');
+    Route::put('/tipoTransferenciaRestore/{id}','App\Http\Controllers\TipoTransfController@restore');
 //tipo documento registro  
     Route::post('/tiposDocumentosRegistros','App\Http\Controllers\TipoDocRegController@index');
     Route::post('/tipoDocumentoRegistro','App\Http\Controllers\TipoDocRegController@store');
     Route::get('/tipoDocumentoRegistroEditar/{id}','App\Http\Controllers\TipoDocRegController@edit');
     Route::put('/tipoDocumentoRegistroUpdate/{id}','App\Http\Controllers\TipoDocRegController@update');
     Route::put('/tipoDocumentoDestroy/{id}','App\Http\Controllers\TipoDocRegController@destroy');
+    Route::post('/tiposDocumentosRegistrosDeleted','App\Http\Controllers\TipoDocRegController@indexDeleted');
+    Route::put('/tipoDocumentoRestore/{id}','App\Http\Controllers\TipoDocRegController@restore');
 //salida de insumos  ********
     Route::post('/registrosSalidas','App\Http\Controllers\RegSalCabController@index');
     Route::get('/registrosSalidas/create','App\Http\Controllers\RegSalCabController@create');
@@ -108,6 +122,8 @@ Route::group(['middleware'=>["auth:sanctum"]],function(){
     Route::get('/trabajadorEditar/{id}','App\Http\Controllers\TrabajadorController@edit');
     Route::put('/trabajadorUpdate/{id}','App\Http\Controllers\TrabajadorController@update');
     Route::put('/trabajadorDestroy/{id}','App\Http\Controllers\TrabajadorController@destroy');
+    Route::post('/trabajadoresDeleted','App\Http\Controllers\TrabajadorController@indexDeleted');
+    Route::put('/trabajadorRestore','App\Http\Controllers\TrabajadorController@restore');
 //proveedor  **********
     Route::post('/proveedores','App\Http\Controllers\ProveedorController@index');    
     Route::get('/proveedor/provincias/{id}','App\Http\Controllers\ProveedorController@provincias');
@@ -118,6 +134,8 @@ Route::group(['middleware'=>["auth:sanctum"]],function(){
     Route::get('/proveedorEditar/{id}','App\Http\Controllers\ProveedorController@edit');
     Route::put('/proveedorUpdate/{id}','App\Http\Controllers\ProveedorController@update');
     Route::put('/proveedorDestroy/{id}','App\Http\Controllers\ProveedorController@destroy');
+    Route::post('/proveedoresDeleted','App\Http\Controllers\ProveedorController@indexDeleted');
+    Route::put('/proveedorRestore/{id}','App\Http\Controllers\ProveedorController@restore');
 //rol ******
     Route::post('/roles','App\Http\Controllers\RolController@index');
     Route::get('/roles/create','App\Http\Controllers\RolController@create');

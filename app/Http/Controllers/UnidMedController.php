@@ -39,11 +39,6 @@ class UnidMedController extends Controller
 
     }
 
-    // public function create()
-    // {
-    //     // NO REQUIERE
-    // }
-
     public function store(FormUnid_Med $request)
     {
         try{
@@ -60,19 +55,6 @@ class UnidMedController extends Controller
             'unid_med' => $unid_med
         ], 200, );
     }
-
-    // public function show($id)
-    // {
-    //     //NO REQUIERE
-    //     $unid_med = DB::table('unid_med')
-    //     ->select('cod_unid_med','des_unid_med','prefijo_unid_med')
-    //     ->where('cod_unid_med','=',$id)
-    //     ->get();
-
-    //     return response()->json([
-    //         "unid_med" => $unid_med
-    //     ], 200,);
-    // }
 
     public function edit($id)
     {
@@ -120,4 +102,40 @@ class UnidMedController extends Controller
             'msg' => $msg
         ], 200, );
     }
+
+    public function indexDeleted(Request $request)
+    {
+        $busqueda = "";
+        if($request){
+            $busqueda = trim($request->get('searchText'));
+        }
+
+        $unid_med = DB::table('unid_med')
+            ->select('cod_unid_med','des_unid_med','prefijo_unid_med')
+            ->where([['des_unid_med','LIKE', '%'.$busqueda.'%'],['estado_unid_med','=','Inactivo']])
+            ->orwhere([['prefijo_unid_med','LIKE', '%'.$busqueda.'%'],['estado_unid_med','=','Inactivo']])
+            ->orderBy('cod_unid_med','desc')
+            ->paginate(7);
+
+        return response()->json([
+            "unid_med" => $unid_med
+        ], 200);
+
+    }
+
+    public function restore($id)
+    {
+        $unid_med = Unid_med::find($id);
+        $unid_med->estado_unid_med = "Activo"; // 1:Activo  2:Inactivo
+        $unid_med->update();
+
+        if($unid_med->update()){
+            $msg="Registro unidad de medida habilitado";
+        }
+
+        return response()->json([
+            'msg' => $msg
+        ], 200, );
+    }
+
 }
