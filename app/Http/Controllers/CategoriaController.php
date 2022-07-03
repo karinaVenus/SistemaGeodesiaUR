@@ -16,7 +16,7 @@ class CategoriaController extends Controller
         $this->middleware('permission:ver-categorias|registrar-categorias|editar-categorias|eliminar-categorias')->only(['index']);
         $this->middleware('permission:registrar-categorias')->only(['create','store']);
         $this->middleware('permission:editar-categorias')->only(['edit','update']);
-        $this->middleware('permission:eliminar-categorias')->only('destroy','indexDeleted','restore');
+        $this->middleware('permission:eliminar-categorias')->only(['destroy','indexDeleted','restore']);
     }
 
     public function index(Request $request)
