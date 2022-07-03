@@ -18,7 +18,6 @@ class RegSalCabController extends Controller
         $this->middleware('permission:ver-salidas de insumo|registrar-salidas de insumo|editar-salidas de insumo|eliminar-salidas de insumo')->only(['index','show']);
         $this->middleware('permission:registrar-salidas de insumo')->only(['create','store']);
         $this->middleware('permission:editar-salidas de insumo')->only(['edit','update']);
-        $this->middleware('permission:eliminar-salidas de insumo')->only('destroy');
     }
 
     public function index(Request $request)

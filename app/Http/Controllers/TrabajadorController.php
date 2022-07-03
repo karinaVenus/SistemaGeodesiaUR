@@ -24,7 +24,7 @@ class TrabajadorController extends Controller
         $this->middleware('permission:ver-trabajadores|registrar-trabajadores|editar-trabajadores|eliminar-trabajadores')->only(['index','show']);
         $this->middleware('permission:registrar-trabajadores')->only(['create','store','asignarRolAcceso','storeRolAcceso']);
         $this->middleware('permission:editar-trabajadores')->only(['edit','update','asignarRolAcceso','storeRolAcceso']);
-        $this->middleware('permission:eliminar-trabajadores')->only('destroy');
+        $this->middleware('permission:eliminar-trabajadores')->only(['destroy','indexDeleted','restore']);
     }
 
     public function index(Request $request)

@@ -13,10 +13,10 @@ class TipoTransfController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:ver-tipos de transferencias|registrar-tipos de transferencias|editar-tipos de transferencias|eliminar-tipos de transferencias')->only(['index','show']);
+        $this->middleware('permission:ver-tipos de transferencias|registrar-tipos de transferencias|editar-tipos de transferencias|eliminar-tipos de transferencias')->only(['index']);
         $this->middleware('permission:registrar-tipos de transferencias')->only(['create','store']);
         $this->middleware('permission:editar-tipos de transferencias')->only(['edit','update']);
-        $this->middleware('permission:eliminar-tipos de transferencias')->only('destroy');
+        $this->middleware('permission:eliminar-tipos de transferencias')->only(['destroy','indexDeleted','restore']);
     }
 
     public function index(Request $request)

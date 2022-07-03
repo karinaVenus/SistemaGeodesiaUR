@@ -17,7 +17,6 @@ class RegIngCabController extends Controller
         $this->middleware('permission:ver-ingresos de insumo|registrar-ingresos de insumo|editar-ingresos de insumo|eliminar-ingresos de insumo')->only(['index','show']);
         $this->middleware('permission:registrar-ingresos de insumo')->only(['create','store']);
         $this->middleware('permission:editar-ingresos de insumo')->only(['edit','update']);
-        $this->middleware('permission:eliminar-ingresos de insumo')->only('destroy');
     }
     
     public function index(Request $request)

@@ -9,7 +9,7 @@ class InventarioController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:generar-inventario|generar-kardex')->only(['index','inventario']);
+        $this->middleware('permission:generar-inventario')->only(['index','inventario']);
     }
 
     public function index()

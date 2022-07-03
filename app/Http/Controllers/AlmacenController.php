@@ -20,7 +20,7 @@ class AlmacenController extends Controller
         $this->middleware('permission:ver-almacenes|registrar-almacenes|editar-almacenes|eliminar-almacenes')->only(['index']);
         $this->middleware('permission:registrar-almacenes')->only(['create','store']);
         $this->middleware('permission:editar-almacenes')->only(['edit','update']);
-        $this->middleware('permission:eliminar-almacenes')->only('destroy');
+        $this->middleware('permission:eliminar-almacenes')->only(['destroy','indexDeleted','restore']);
     }
 
     public function index(Request $request)

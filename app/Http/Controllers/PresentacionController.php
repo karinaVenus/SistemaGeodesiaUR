@@ -14,10 +14,10 @@ class PresentacionController extends Controller
 
     function __construct()
     {
-        $this->middleware('permission:ver-presentaciones|registrar-presentaciones|editar-presentaciones|eliminar-presentaciones')->only(['index','show']);
+        $this->middleware('permission:ver-presentaciones|registrar-presentaciones|editar-presentaciones|eliminar-presentaciones')->only(['index']);
         $this->middleware('permission:registrar-presentaciones')->only(['create','store']);
         $this->middleware('permission:editar-presentaciones')->only(['edit','update']);
-        $this->middleware('permission:eliminar-presentaciones')->only('destroy');
+        $this->middleware('permission:eliminar-presentaciones')->only(['destroy','indexDeleted','restore']);
     }
 
     public function index(Request $request)
@@ -59,20 +59,6 @@ class PresentacionController extends Controller
             'presentacion' => $presentacion
         ], 200, );
     }
-
-
-    // public function show($id)
-    // //NO REQUIERE
-    // {
-    //     $presentacion = DB::table('presentacion')
-    //     ->select('cod_pres','des_pres')
-    //     ->where('cod_pres','=',$id)
-    //     ->get();
-
-    //     return response()->json([
-    //         "presentacion" => $presentacion
-    //     ], 200,);
-    // }
 
     public function edit($id)
     {
