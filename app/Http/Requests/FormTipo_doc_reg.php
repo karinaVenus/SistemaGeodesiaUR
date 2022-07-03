@@ -23,4 +23,11 @@ class FormTipo_doc_reg extends FormRequest
             'des_t_doc'=>'required|max:45'
         ];
     }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+            'status' => true
+        ], 422));
+    }
 }
