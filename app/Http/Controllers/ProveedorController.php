@@ -18,7 +18,7 @@ class ProveedorController extends Controller
         $this->middleware('permission:ver-proveedores|registrar-proveedores|editar-proveedores|eliminar-proveedores')->only(['index','show']);
         $this->middleware('permission:registrar-proveedores')->only(['create','store']);
         $this->middleware('permission:editar-proveedores')->only(['edit','update']);
-        $this->middleware('permission:eliminar-proveedores')->only('destroy');
+        $this->middleware('permission:eliminar-proveedores')->only(['destroy','indexDeleted','restore']);
     }
 
     //codigo proveedor, tipo persona, razon social, tipo doc. identidad, nro. doc. identidad

@@ -11,7 +11,11 @@ use Exception;
 
 class EmpresaController extends Controller
 {
-    
+    function __construct()
+    {
+        $this->middleware('permission:editar-empresa')->only(['edit','update']);
+    }
+
     public function show()
     {
         $empresa = DB::table('empresa as emp')

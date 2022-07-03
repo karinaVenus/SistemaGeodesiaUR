@@ -13,10 +13,10 @@ class UnidMedController extends Controller
 {
         function __construct()
     {
-        $this->middleware('permission:ver-unidades de medida|registrar-unidades de medida|editar-unidades de medida|eliminar-unidades de medida')->only(['index','show']);
+        $this->middleware('permission:ver-unidades de medida|registrar-unidades de medida|editar-unidades de medida|eliminar-unidades de medida')->only(['index']);
         $this->middleware('permission:registrar-unidades de medida')->only(['create','store']);
         $this->middleware('permission:editar-unidades de medida')->only(['edit','update']);
-        $this->middleware('permission:eliminar-unidades de medida')->only('destroy');
+        $this->middleware('permission:eliminar-unidades de medida')->only(['destroy','indexDeleted','restore']);
     }
 
     public function index(Request $request)

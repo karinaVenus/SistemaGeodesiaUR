@@ -13,10 +13,10 @@ class CategoriaController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:ver-categorias|registrar-categorias|editar-categorias|eliminar-categorias')->only(['index','show']);
+        $this->middleware('permission:ver-categorias|registrar-categorias|editar-categorias|eliminar-categorias')->only(['index']);
         $this->middleware('permission:registrar-categorias')->only(['create','store']);
         $this->middleware('permission:editar-categorias')->only(['edit','update']);
-        $this->middleware('permission:eliminar-categorias')->only('destroy');
+        $this->middleware('permission:eliminar-categorias')->only(['destroy','indexDeleted','restore']);
     }
 
     public function index(Request $request)

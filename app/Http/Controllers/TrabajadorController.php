@@ -24,7 +24,7 @@ class TrabajadorController extends Controller
         $this->middleware('permission:ver-trabajadores|registrar-trabajadores|editar-trabajadores|eliminar-trabajadores')->only(['index','show']);
         $this->middleware('permission:registrar-trabajadores')->only(['create','store','asignarRolAcceso','storeRolAcceso']);
         $this->middleware('permission:editar-trabajadores')->only(['edit','update','asignarRolAcceso','storeRolAcceso']);
-        $this->middleware('permission:eliminar-trabajadores')->only('destroy');
+        $this->middleware('permission:eliminar-trabajadores')->only(['destroy','indexDeleted','restore']);
     }
 
     public function index(Request $request)
@@ -186,8 +186,8 @@ class TrabajadorController extends Controller
         return response()->json([
             'trabajador' => $persona->makeHidden(['cod_persona','cod_t_per','razon_social','cod_t_doc','nro_doc','correo_per','cod_dist','dir_per']),
             'usuario' => $user->makeHidden(['cod_trabajador','contraseña','cod_estado_usu','roles','permissions']),
-            'rol-usuario' => $rol->makeHidden(['guard_name','created_at','updated_at','pivot']),
-            'acceso-usuario' => $acceso->makeHidden(['guard_name','created_at','updated_at','pivot']),
+            'rolUsuario' => $rol->makeHidden(['guard_name','created_at','updated_at','pivot']),
+            'accesoUsuario' => $acceso->makeHidden(['guard_name','created_at','updated_at','pivot']),
             'roles' => $roles,
             'accesos' => $accesos
         ], 200); 

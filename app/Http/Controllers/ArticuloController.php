@@ -21,7 +21,7 @@ class ArticuloController extends Controller
         $this->middleware('permission:ver-articulos|registrar-articulos|editar-articulos|eliminar-articulos')->only(['index','show']);
         $this->middleware('permission:registrar-articulos')->only(['create','store']);
         $this->middleware('permission:editar-articulos')->only(['edit','update']);
-        $this->middleware('permission:eliminar-articulos')->only('destroy');
+        $this->middleware('permission:eliminar-articulos')->only(['destroy','indexDeleted','restore']);
     }
 
     public function index(Request $request)

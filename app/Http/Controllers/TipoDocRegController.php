@@ -13,10 +13,10 @@ class TipoDocRegController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:ver-tipos de documento|registrar-tipos de documento|editar-tipos de documento|eliminar-tipos de documento')->only(['index','show']);
+        $this->middleware('permission:ver-tipos de documento|registrar-tipos de documento|editar-tipos de documento|eliminar-tipos de documento')->only(['index']);
         $this->middleware('permission:registrar-tipos de documento')->only(['create','store']);
         $this->middleware('permission:editar-tipos de documento')->only(['edit','update']);
-        $this->middleware('permission:eliminar-tipos de documento')->only('destroy');
+        $this->middleware('permission:eliminar-tipos de documento')->only(['destroy','indexDeleted','restore']);
     }
 
     public function index(Request $request)
