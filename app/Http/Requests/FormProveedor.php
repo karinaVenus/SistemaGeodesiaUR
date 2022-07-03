@@ -27,4 +27,11 @@ class FormProveedor extends FormRequest
             'nro_telf.*'=>'required|between:7,9'// el * especifica que analice cada item del array
         ];
     }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+            'status' => true
+        ], 422));
+    }
 }

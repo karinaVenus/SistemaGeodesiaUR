@@ -18,4 +18,11 @@ class FormTipo_Transf extends FormRequest
             'des_transf'=>'required|unique:tipo_transf|max:45',//requerido, max 45
         ];
     }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+            'status' => true
+        ], 422));
+    }
 }

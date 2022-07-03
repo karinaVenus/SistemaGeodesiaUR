@@ -32,4 +32,11 @@ class FormReg_sal_cab extends FormRequest
             'obs_sal'=>'max:350'
         ];
     }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+            'status' => true
+        ], 422));
+    }
 }

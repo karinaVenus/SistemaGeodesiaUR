@@ -33,4 +33,11 @@ class FormArticulo extends FormRequest
             'cod_estado_art'=>'required'                //requerido
         ];
     }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+            'status' => true
+        ], 422));
+    }
 }
