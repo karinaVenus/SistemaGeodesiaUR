@@ -31,7 +31,7 @@ class TipoTransfController extends Controller
             ->select('cod_t_transf','des_transf')
             ->where([['des_transf','LIKE', '%'.$busqueda.'%'],['estado_transf','=','Activo']]) 
             ->orderBy('cod_t_transf','desc')
-            ->paginate(7);
+            ->paginate(8);
 
         return response()->json([
             "tipo_transf" => $tipo_transf
@@ -112,7 +112,7 @@ class TipoTransfController extends Controller
             ->select('cod_t_transf','des_transf')
             ->where([['des_transf','LIKE', '%'.$busqueda.'%'],['estado_transf','=','Inactivo']]) 
             ->orderBy('cod_t_transf','desc')
-            ->paginate(7);
+            ->paginate(8);
 
         return response()->json([
             "tipo_transf" => $tipo_transf

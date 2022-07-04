@@ -17,7 +17,7 @@ class SeederTablaPermisos extends Seeder
     public function run()
     {
         $permisos = [
-    	    'ver-articulos',
+            'ver-articulos',
             'ver-ingresos de insumo',
             'ver-salidas de insumo',
             'ver-proveedores',
@@ -53,9 +53,8 @@ class SeederTablaPermisos extends Seeder
             'editar-unidades de medida',
             'editar-tipos de documento',
             'editar-tipos de transferencias',
+            'editar-empresa',
             'eliminar-articulos',
-            'eliminar-ingresos de insumo',
-            'eliminar-salidas de insumo',
             'eliminar-proveedores',
             'eliminar-trabajadores',
             'eliminar-roles',
@@ -66,7 +65,8 @@ class SeederTablaPermisos extends Seeder
             'eliminar-tipos de documento',
             'eliminar-tipos de transferencias',
             'generar-kardex',
-            'generar-inventario'
+            'generar-inventario',
+            'asignar-roles'
         ];
 
         foreach($permisos as $permiso) {

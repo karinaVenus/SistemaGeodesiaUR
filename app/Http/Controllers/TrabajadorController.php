@@ -22,9 +22,10 @@ class TrabajadorController extends Controller
     function __construct()
     {
         $this->middleware('permission:ver-trabajadores|registrar-trabajadores|editar-trabajadores|eliminar-trabajadores')->only(['index','show']);
-        $this->middleware('permission:registrar-trabajadores')->only(['create','store','asignarRolAcceso','storeRolAcceso']);
-        $this->middleware('permission:editar-trabajadores')->only(['edit','update','asignarRolAcceso','storeRolAcceso']);
+        $this->middleware('permission:registrar-trabajadores')->only(['create','store']);
+        $this->middleware('permission:editar-trabajadores')->only(['edit','update']);
         $this->middleware('permission:eliminar-trabajadores')->only(['destroy','indexDeleted','restore']);
+        $this->middleware('permission:asignar-roles')->only(['asignarRolAcceso','storeRolAcceso']);
     }
 
     public function index(Request $request)
@@ -47,7 +48,7 @@ class TrabajadorController extends Controller
             ->orwhere([['r.name','LIKE','%' . $busqueda . '%'],['estado_trab','=',1]])
             ->orwhere([['per.nro_doc','LIKE','%' . $busqueda . '%'],['estado_trab','=',1]])
             ->orderBy('per.nom_per', 'asc')
-         ->paginate(15);
+         ->paginate(8);
 
         return response()->json([
             "trabajadores" => $trabajadores
@@ -376,7 +377,7 @@ class TrabajadorController extends Controller
             ->orwhere([['r.name','LIKE','%' . $busqueda . '%'],['estado_trab','=',0]])
             ->orwhere([['per.nro_doc','LIKE','%' . $busqueda . '%'],['estado_trab','=',0]])
             ->orderBy('per.nom_per', 'asc')
-         ->paginate(15);
+         ->paginate(8);
 
         return response()->json([
             "trabajadores" => $trabajadores

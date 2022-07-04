@@ -31,7 +31,7 @@ class TipoDocRegController extends Controller
             ->where([['tipo_reg_doc','LIKE', '%'.$busqueda.'%'],['estado_t_doc','=',1]]) 
             ->orwhere([['des_t_doc','LIKE', '%'.$busqueda.'%'],['estado_t_doc','=',1]]) 
             ->orderBy('cod_t_doc','desc')
-            ->paginate(7);
+            ->paginate(8);
 
         return response()->json([
             "tipo_doc_reg" => $tipo_doc_reg
@@ -115,7 +115,7 @@ class TipoDocRegController extends Controller
             ->where([['tipo_reg_doc','LIKE', '%'.$busqueda.'%'],['estado_t_doc','=',0]]) 
             ->orwhere([['des_t_doc','LIKE', '%'.$busqueda.'%'],['estado_t_doc','=',0]]) 
             ->orderBy('cod_t_doc','desc')
-            ->paginate(7);
+            ->paginate(8);
 
         return response()->json([
             "tipo_doc_reg" => $tipo_doc_reg
