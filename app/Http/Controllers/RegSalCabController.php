@@ -362,7 +362,7 @@ class RegSalCabController extends Controller
         INNER JOIN reg_sal_cab as rb on rb.cod_reg_sal = rd.cod_reg_sal
         WHERE inv.cod_almacen = rb.cod_almacen and inv.cod_art = rd.cod_art) as stock_almacen
         FROM reg_sal_det as rd
-        WHERE rd.cod_reg_sal = 111
+        WHERE rd.cod_reg_sal = $id
         GROUP BY rd.cod_art ");
         
         return response()->json([
@@ -372,7 +372,7 @@ class RegSalCabController extends Controller
             "almacen"=>$almacen,
             "tipo_transf"=>$tipo_transf,
             "tipo_doc_reg"=>$tipo_doc_reg
-        ], 200, );
+        ], 200);
 
     }
 

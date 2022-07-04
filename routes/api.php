@@ -147,6 +147,12 @@ Route::group(['middleware'=>["auth:sanctum"]],function(){
     Route::get('/empresa','App\Http\Controllers\EmpresaController@show');
     Route::get('/empresaEditar/{id}','App\Http\Controllers\EmpresaController@edit');
     Route::put('/empresaUpdate/{id}','App\Http\Controllers\EmpresaController@update');
+//dashboard
+    Route::get('/dashAlmacenes','App\Http\Controllers\DashboardController@almacenes');
+    Route::get('/dashUsers','App\Http\Controllers\DashboardController@usersNow');
+    Route::get('/dashIngresoArticulos/{id}','App\Http\Controllers\DashboardController@ingresoArticulos');
+    Route::get('/dashSalidaArticulos/{id}','App\Http\Controllers\DashboardController@salidaArticulos');
+
 });
 
 
