@@ -76,7 +76,7 @@ class Guard
             );
 
             event(new TokenAuthenticated($accessToken));
-
+            date_default_timezone_set('America/Lima');
             if (method_exists($accessToken->getConnection(), 'hasModifiedRecords') &&
                 method_exists($accessToken->getConnection(), 'setRecordModificationState')) {
                 tap($accessToken->getConnection()->hasModifiedRecords(), function ($hasModifiedRecords) use ($accessToken) {
