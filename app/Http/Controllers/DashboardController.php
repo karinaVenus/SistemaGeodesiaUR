@@ -34,7 +34,7 @@ class DashboardController extends Controller
         INNER JOIN articulo AS art ON art.cod_art = rd.cod_art
         INNER JOIN presentacion AS pr ON pr.cod_pres = art.cod_pres
         INNER JOIN reg_ing_cab AS rc ON rc.cod_reg_in = rd.cod_reg_ing
-        WHERE rc.fec_ing BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()
+        WHERE (rc.fec_ing BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()) AND (rc.cod_almacen = $id)
         GROUP BY rd.cod_art
         ORDER BY SUM(rd.cant_art) DESC");
 
@@ -50,7 +50,7 @@ class DashboardController extends Controller
         INNER JOIN articulo AS art ON art.cod_art = rd.cod_art
         INNER JOIN presentacion AS pr ON pr.cod_pres = art.cod_pres
         INNER JOIN reg_sal_cab AS rc ON rc.cod_reg_sal = rd.cod_reg_sal
-        WHERE rc.fec_sal BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()
+        WHERE (rc.fec_sal BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()) AND (rc.cod_almacen = $id)
         GROUP BY rd.cod_art
         ORDER BY SUM(rd.cant_art) DESC");
 
