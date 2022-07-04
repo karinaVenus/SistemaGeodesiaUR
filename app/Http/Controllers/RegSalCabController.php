@@ -348,15 +348,22 @@ class RegSalCabController extends Controller
         ->get();
 
         $reg_sal_cab = DB::table('reg_sal_cab')
-        ->select('cod_solicitador','cod_autorizador','cod_almacen','cod_t_transf','cod_t_doc','nro_doc','fec_doc')
+        ->select('cod_reg_sal','cod_solicitador','cod_autorizador','cod_almacen','cod_t_transf','cod_t_doc','nro_doc','fec_doc')
         ->where('cod_reg_sal','=',$id)
         ->first();
 
-        $reg_sal_det = DB::table('reg_sal_det')
-        ->select('cod_art',DB::raw("SUM(cant_art) as cant_art"),'obs_sal')
-        ->where('cod_reg_sal','=',$id)
-        ->groupby('cod_art')
-        ->get();
+        // $reg_sal_det = DB::table('reg_sal_det')
+        // ->select('cod_art',DB::raw("SUM(cant_art) as cant_art"),'obs_sal')
+        // ->where('cod_reg_sal','=',$id)
+        // ->groupby('cod_art')
+        // ->get();
+        $reg_sal_det = DB::select("SELECT rd.cod_art,SUM(rd.cant_art) as cant_art,rd.obs_sal,
+        (select inv.stock_almacen FROM inventario as inv 
+        INNER JOIN reg_sal_cab as rb on rb.cod_reg_sal = rd.cod_reg_sal
+        WHERE inv.cod_almacen = rb.cod_almacen and inv.cod_art = rd.cod_art) as stock_almacen
+        FROM reg_sal_det as rd
+        WHERE rd.cod_reg_sal = 111
+        GROUP BY rd.cod_art ");
         
         return response()->json([
             "salida_cabecera" => $reg_sal_cab,
