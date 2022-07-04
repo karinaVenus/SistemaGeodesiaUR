@@ -31,7 +31,7 @@ class PresentacionController extends Controller
             ->select('cod_pres','des_pres')
             ->where([['des_pres','LIKE', '%' . $busqueda . '%'],['estado_pres','=','Activo']]) //busqueda
             ->orderBy('cod_pres','desc')
-            ->paginate(7);
+            ->paginate(8);
 
         return response()->json([
             "presentaciones" => $presentacion
@@ -129,7 +129,7 @@ class PresentacionController extends Controller
             ->select('cod_pres','des_pres')
             ->where([['des_pres','LIKE', '%' . $busqueda . '%'],['estado_pres','=','Inactivo']]) //busqueda
             ->orderBy('cod_pres','desc')
-            ->paginate(7);
+            ->paginate(8);
 
         return response()->json([
             "presentaciones" => $presentacion

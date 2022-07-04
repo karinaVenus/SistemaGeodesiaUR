@@ -40,7 +40,7 @@ class ArticuloController extends Controller
             ->orwhere([['art.des_art','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',1]])
             ->orwhere([['pr.des_pres','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',1]])
             ->orderBy('art.des_art', 'desc')
-            ->paginate(5);
+            ->paginate(8);
 
         return response()->json([
             "articulos" => $articulo
@@ -82,7 +82,7 @@ class ArticuloController extends Controller
             $articulo->cod_cat = $request->get('cod_cat');
             $articulo->cod_pres = $request->get('cod_pres');
             $articulo->cod_unid_med = $request->get('cod_unid_med');
-            $articulo->imagen_art = $request->get('imagen_art');
+            //$articulo->imagen_art = $request->get('imagen_art');
             //$articulo->cod_estado_art = 1; // 1:Activo  2:Inactivo
             $articulo->save();
 
@@ -106,7 +106,7 @@ class ArticuloController extends Controller
         ->join('categoria as cat','art.cod_cat','=','cat.cod_cat')
         ->join('presentacion as pr','art.cod_pres','=','pr.cod_pres')
         ->join('unid_med as um','art.cod_unid_med','=','um.cod_unid_med')
-        ->select('art.des_art','cat.des_cat','pr.des_pres','um.des_unid_med','art.imagen_art')
+        ->select('art.des_art','cat.des_cat','pr.des_pres','um.des_unid_med')
         ->where('art.cod_art','=',$id)
         ->get();
 
@@ -118,7 +118,7 @@ class ArticuloController extends Controller
     public function edit($id)
     {   //consultar y obtener los datos referente al precarcado
         $articulo = DB::table('articulo as art')
-        ->select('art.cod_art','art.des_art','art.cod_cat','art.cod_pres','art.cod_unid_med','art.imagen_art')
+        ->select('art.cod_art','art.des_art','art.cod_cat','art.cod_pres','art.cod_unid_med')
         ->where('art.cod_art','=',$id)
         ->first();
 
@@ -156,7 +156,7 @@ class ArticuloController extends Controller
             $articulo->cod_cat = $request->get('cod_cat');
             $articulo->cod_pres = $request->get('cod_pres');
             $articulo->cod_unid_med = $request->get('cod_unid_med');
-            $articulo->imagen_art = $request->get('imagen_art');
+            //$articulo->imagen_art = $request->get('imagen_art');
             $articulo->update();
 
             if($articulo->update()){
@@ -205,7 +205,7 @@ class ArticuloController extends Controller
             ->orwhere([['art.des_art','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',2]])
             ->orwhere([['pr.des_pres','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',2]])
             ->orderBy('art.des_art', 'desc')
-            ->paginate(5);
+            ->paginate(8);
 
         return response()->json([
             "articulos" => $articulo

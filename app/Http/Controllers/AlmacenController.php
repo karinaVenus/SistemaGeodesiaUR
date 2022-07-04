@@ -31,7 +31,7 @@ class AlmacenController extends Controller
         }
         $almacenes = Almacen::where([['cod_estado_almacen','=',1],['des_almacen','like','%'.$busqueda.'%']])
                     ->orderby('cod_estado_almacen','desc')
-                    ->paginate(5,['cod_almacen','des_almacen','ubic_almacen']);
+                    ->paginate(8,['cod_almacen','des_almacen','ubic_almacen']);
 
         return response()->json([
             "almacenes" => $almacenes
@@ -152,7 +152,7 @@ class AlmacenController extends Controller
         }
         $almacenes = Almacen::where([['cod_estado_almacen','=',2],['des_almacen','like','%'.$busqueda.'%']])
                     ->orderby('cod_estado_almacen','desc')
-                    ->paginate(5,['cod_almacen','des_almacen','ubic_almacen']);
+                    ->paginate(8,['cod_almacen','des_almacen','ubic_almacen']);
 
         return response()->json([
             "almacenes" => $almacenes

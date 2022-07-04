@@ -48,7 +48,7 @@ class TrabajadorController extends Controller
             ->orwhere([['r.name','LIKE','%' . $busqueda . '%'],['estado_trab','=',1]])
             ->orwhere([['per.nro_doc','LIKE','%' . $busqueda . '%'],['estado_trab','=',1]])
             ->orderBy('per.nom_per', 'asc')
-         ->paginate(15);
+         ->paginate(8);
 
         return response()->json([
             "trabajadores" => $trabajadores
@@ -377,7 +377,7 @@ class TrabajadorController extends Controller
             ->orwhere([['r.name','LIKE','%' . $busqueda . '%'],['estado_trab','=',0]])
             ->orwhere([['per.nro_doc','LIKE','%' . $busqueda . '%'],['estado_trab','=',0]])
             ->orderBy('per.nom_per', 'asc')
-         ->paginate(15);
+         ->paginate(8);
 
         return response()->json([
             "trabajadores" => $trabajadores

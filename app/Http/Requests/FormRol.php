@@ -21,7 +21,7 @@ class FormRol extends FormRequest
         return [
             'name' => 'required|unique:roles,name',
             'permiso' => 'required',
-            'autorizar' => 'in:1'
+            'autorizar' => 'required'
         ];
     }
 

@@ -36,7 +36,7 @@ class ProveedorController extends Controller
             ->where([['pep.razon_social','LIKE', '%'.$busqueda.'%'],['p.estado_prov',1]])
             ->orwhere([['pep.nro_doc','LIKE', '%'.$busqueda.'%'],['p.estado_prov',1]])
             ->orderBy('p.cod_prov','desc')
-            ->paginate(7);
+            ->paginate(8);
 
         return response()->json([
             "proveedor" => $proveedor
@@ -289,7 +289,7 @@ class ProveedorController extends Controller
             ->where([['pep.razon_social','LIKE', '%'.$busqueda.'%'],['p.estado_prov',0]])
             ->orwhere([['pep.nro_doc','LIKE', '%'.$busqueda.'%'],['p.estado_prov',0]])
             ->orderBy('p.cod_prov','desc')
-            ->paginate(7);
+            ->paginate(8);
 
         return response()->json([
             "proveedor" => $proveedor

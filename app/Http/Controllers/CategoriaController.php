@@ -30,7 +30,7 @@ class CategoriaController extends Controller
         ->select('cod_cat','des_cat')
         ->where([['des_cat','LIKE', '%' . $busqueda . '%'],['estado_cat','=','Activo']]) 
         ->orderBy('cod_cat','desc')
-        ->paginate(7);
+        ->paginate(8);
 
         return response()->json([
             "categorias" => $categoria
@@ -114,7 +114,7 @@ class CategoriaController extends Controller
         ->select('cod_cat','des_cat')
         ->where([['des_cat','LIKE', '%' . $busqueda . '%'],['estado_cat','=','Inactivo']]) 
         ->orderBy('cod_cat','desc')
-        ->paginate(7);
+        ->paginate(8);
 
         return response()->json([
             "categorias" => $categoria

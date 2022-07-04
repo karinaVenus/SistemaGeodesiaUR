@@ -47,7 +47,7 @@ class RegIngCabController extends Controller
         ->orwhere('rc.fec_ing','LIKE', '%'.$busqueda.'%') 
         ->wherein('a.des_almacen',$accesos)
         ->orderBy('rc.fec_ing','desc')
-        ->paginate(7);
+        ->paginate(8);
             
         return response()->json([
             "registros"=>$regs_ings
@@ -90,8 +90,8 @@ class RegIngCabController extends Controller
         ->get();
 
         $articulo = DB::table('articulo as art')
-        ->join('unid_med as um','art.cod_unid_med','=','um.cod_unid_med')
-        ->select('art.cod_art',DB::raw("CONCAT(art.des_art,'um: ',um.des_unid_med) AS articulo"))
+        ->join('presentacion as pr','art.cod_pres','=','pr.cod_pres')
+        ->select('art.cod_art',DB::raw("CONCAT(art.des_art,' / ',pr.des_pres) AS articulo"))
         ->where('art.cod_estado_art',1)
         ->orderBy('art.cod_art','asc')
         ->get();

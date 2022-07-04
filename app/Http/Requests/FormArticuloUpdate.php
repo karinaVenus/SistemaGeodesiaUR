@@ -21,7 +21,7 @@ class FormArticuloUpdate extends FormRequest
             'cod_cat'=>'required',                     //requerido
             'cod_pres'=>'required',                    //requerido
             'cod_unid_med'=>'required',                //requerido
-            'imagen_art'=>'required|max:200', //requerido, max 200  mimes:jpeg,jpg,png|max:200
+            //'imagen_art'=>'required|max:200', //requerido, max 200  mimes:jpeg,jpg,png|max:200
         ];
     }
     protected function failedValidation(Validator $validator)
