@@ -48,7 +48,7 @@ class AlmacenController extends Controller
             $almacen->ubic_almacen = $request->get('ubic_almacen');
             $almacen->save();
 
-            $permiso = Permission::create(['guard_name' => 'web','name' => $almacen->des_almacen]);
+            $permiso = Permission::firstOrCreate(['guard_name' => 'web','name' => $almacen->des_almacen]);
 
             DB::insert('insert into acceso (id,id_almacen) values(?,?)',[$permiso->id,$almacen->cod_almacen]);
 
