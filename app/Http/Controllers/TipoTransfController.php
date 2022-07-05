@@ -31,10 +31,10 @@ class TipoTransfController extends Controller
             ->select('cod_t_transf','des_transf')
             ->where([['des_transf','LIKE', '%'.$busqueda.'%'],['estado_transf','=','Activo']]) 
             ->orderBy('cod_t_transf','desc')
-            ->paginate(8);
-
+            ->get();
+        $data = array('data' => $tipo_transf);
         return response()->json([
-            "tipo_transf" => $tipo_transf
+            "tipo_transf" => $data
         ], 200);
     }
 
@@ -112,10 +112,10 @@ class TipoTransfController extends Controller
             ->select('cod_t_transf','des_transf')
             ->where([['des_transf','LIKE', '%'.$busqueda.'%'],['estado_transf','=','Inactivo']]) 
             ->orderBy('cod_t_transf','desc')
-            ->paginate(8);
-
+            ->get();
+            $data = array('data' => $tipo_transf);
         return response()->json([
-            "tipo_transf" => $tipo_transf
+            "tipo_transf" => $data
         ], 200);
     }
 

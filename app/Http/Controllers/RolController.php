@@ -33,10 +33,10 @@ class RolController extends Controller
 
         $roles = Role::where('name','like','%'.$busqueda.'%')
             ->where('name','!=','ADMINISTRADOR')
-            ->paginate(8,['id','name']);
-
+            ->get(['id','name']);
+        $data = array('data' => $roles); 
         return response()->json([
-            "roles" => $roles
+            "roles" => $data
         ], 200);
     }
 
