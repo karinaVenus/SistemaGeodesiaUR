@@ -47,10 +47,10 @@ class RegIngCabController extends Controller
         ->orwhere('rc.fec_ing','LIKE', '%'.$busqueda.'%') 
         ->wherein('a.des_almacen',$accesos)
         ->orderBy('rc.fec_ing','desc')
-        ->paginate(8);
-            
+        ->get();
+        $data = array('data' => $regs_ings); 
         return response()->json([
-            "registros"=>$regs_ings
+            "registros"=>$data
         ], 200,);
     }
   

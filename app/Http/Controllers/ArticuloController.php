@@ -40,10 +40,10 @@ class ArticuloController extends Controller
             ->orwhere([['art.des_art','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',1]])
             ->orwhere([['pr.des_pres','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',1]])
             ->orderBy('art.des_art', 'desc')
-            ->paginate(8);
-
+            ->get();
+            $data = array('data' => $articulo);
         return response()->json([
-            "articulos" => $articulo
+            "articulos" => $data
         ], 200);
     }
 
@@ -205,10 +205,10 @@ class ArticuloController extends Controller
             ->orwhere([['art.des_art','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',2]])
             ->orwhere([['pr.des_pres','LIKE', '%' . $busqueda . '%'],['cod_estado_art','=',2]])
             ->orderBy('art.des_art', 'desc')
-            ->paginate(8);
-
+            ->get();
+            $data = array('data' => $articulo);
         return response()->json([
-            "articulos" => $articulo
+            "articulos" => $data
         ], 200);
     }
 

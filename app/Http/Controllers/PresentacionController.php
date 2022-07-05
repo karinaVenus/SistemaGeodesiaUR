@@ -31,10 +31,10 @@ class PresentacionController extends Controller
             ->select('cod_pres','des_pres')
             ->where([['des_pres','LIKE', '%' . $busqueda . '%'],['estado_pres','=','Activo']]) //busqueda
             ->orderBy('cod_pres','desc')
-            ->paginate(8);
-
+            ->get();
+            $data = array('data' => $presentacion);
         return response()->json([
-            "presentaciones" => $presentacion
+            "presentaciones" => $data
         ], 200);
     }
 
@@ -129,10 +129,10 @@ class PresentacionController extends Controller
             ->select('cod_pres','des_pres')
             ->where([['des_pres','LIKE', '%' . $busqueda . '%'],['estado_pres','=','Inactivo']]) //busqueda
             ->orderBy('cod_pres','desc')
-            ->paginate(8);
-
+            ->get();
+            $data = array('data' => $presentacion);
         return response()->json([
-            "presentaciones" => $presentacion
+            "presentaciones" => $data
         ], 200);
     }
 

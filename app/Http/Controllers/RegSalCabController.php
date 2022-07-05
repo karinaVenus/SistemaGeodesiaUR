@@ -46,10 +46,10 @@ class RegSalCabController extends Controller
         ->orwhere('tt.des_transf','LIKE', '%'.$busqueda.'%')
         ->orwhere('rc.fec_sal','LIKE', '%'.$busqueda.'%')
         ->orderBy('rc.fec_sal','desc')
-        ->paginate(8);
-
+        ->get();
+        $data = array('data' => $regs_sal); 
         return response()->json([
-            "registros"=>$regs_sal
+            "registros"=>$data
         ], 200,);
     }
 

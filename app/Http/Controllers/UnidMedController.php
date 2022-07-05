@@ -31,10 +31,10 @@ class UnidMedController extends Controller
             ->where([['des_unid_med','LIKE', '%'.$busqueda.'%'],['estado_unid_med','=','Activo']])
             ->orwhere([['prefijo_unid_med','LIKE', '%'.$busqueda.'%'],['estado_unid_med','=','Activo']])
             ->orderBy('cod_unid_med','desc')
-            ->paginate(8);
-
+            ->get();
+            $data = array('data' => $unid_med);
         return response()->json([
-            "unid_med" => $unid_med
+            "unid_med" => $data
         ], 200);
 
     }
@@ -115,10 +115,10 @@ class UnidMedController extends Controller
             ->where([['des_unid_med','LIKE', '%'.$busqueda.'%'],['estado_unid_med','=','Inactivo']])
             ->orwhere([['prefijo_unid_med','LIKE', '%'.$busqueda.'%'],['estado_unid_med','=','Inactivo']])
             ->orderBy('cod_unid_med','desc')
-            ->paginate(8);
-
+            ->get();
+            $data = array('data' => $unid_med);
         return response()->json([
-            "unid_med" => $unid_med
+            "unid_med" => $data
         ], 200);
 
     }
