@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login','App\Http\Controllers\UsuarioController@login');
 
-Route::group(['middleware'=>["auth:sanctum"]],function(){
+Route::group(['middleware'=>["auth:sanctum","cors"]],function(){
 //usuario  ********
     Route::get('/logout','App\Http\Controllers\UsuarioController@logout');
     //Route::get('/perfil/{id}','App\Http\Controllers\UsuarioController@profile');
