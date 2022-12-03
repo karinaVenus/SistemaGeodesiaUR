@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.7",
         "spatie/laravel-permission": "^5.5",
         "heroku/heroku-buildpack-php" : "dev-master"
+        
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
